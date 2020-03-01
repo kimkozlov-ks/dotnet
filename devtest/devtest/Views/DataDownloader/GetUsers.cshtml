@@ -1,0 +1,33 @@
+﻿@model devtest.Models.DownloadedUsers
+
+@{
+    ViewData["Title"] = "GetUsers";
+}
+
+<h2>GetUsers</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var user in Model.Users)
+{
+    <tr>
+        <td>
+            @user.Name.FirstName @user.Name.LastName
+            <img src="@user.Picture.Thumbnail"/> 
+            @user.Phone
+            @user.Email
+            @user.Gender
+        </td>
+    </tr>
+}
+
+    </tbody>
+</table>

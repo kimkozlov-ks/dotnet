@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>dev</title>
+</head>
+<body>
+    <div>
+
+@(Html.DevExtreme().DataGrid<devtest.Models.User>()
+    .DataSource(ds => ds.Mvc()
+        .Controller("DataDownloader")
+        .LoadAction("Get")
+    )
+    .RemoteOperations(true)
+    .Columns(columns => {
+         columns.AddFor(m => m.Gender);
+        columns.AddFor(m => m.Name.FirstName);
+    })
+)
+
+    </div>
+</body>
+</html>
