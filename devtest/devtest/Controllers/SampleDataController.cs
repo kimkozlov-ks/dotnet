@@ -47,7 +47,18 @@ namespace devtest.Controllers {
 
             foreach (var user in SampleData.users)
             {
-                testData.Add(new TestData(user.Phone));
+                var testUser = new TestData()
+                {
+                    Name = user.Name.FirstName + " " + user.Name.LastName,
+                    Gender = user.Gender,
+                    Phone = user.Phone,
+                    Email = user.Email,
+                    Location = user.Location.Street.Name + " " + user.Location.Street.Number,
+                    Picture =  user.Picture.Thumbnail
+                };
+
+
+                testData.Add(testUser);
             }
 
             return DataSourceLoader.Load(testData, loadOptions);

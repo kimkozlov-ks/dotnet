@@ -7,11 +7,11 @@ namespace devtest.Models
 {
     public class TestData
     {
+        public string Name { get; set; }
+        public string Gender { get; set; }
         public string Phone { get; set; }
-
-        public TestData(string phone)
-        {
-            Phone = phone;
-        }
+        public string Email { get; set; }
+        public string Location { get; set; }
+        public string Picture { get; set; }
     }
 }

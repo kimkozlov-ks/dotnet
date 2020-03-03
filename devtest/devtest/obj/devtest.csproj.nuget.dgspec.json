@@ -1,29 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kimkozlov\\source\\repos\\devtest\\devtest\\devtest.csproj": {}
+    "C:\\dotnetDevExtreme\\devtest\\devtest\\devtest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kimkozlov\\source\\repos\\devtest\\devtest\\devtest.csproj": {
+    "C:\\dotnetDevExtreme\\devtest\\devtest\\devtest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kimkozlov\\source\\repos\\devtest\\devtest\\devtest.csproj",
+        "projectUniqueName": "C:\\dotnetDevExtreme\\devtest\\devtest\\devtest.csproj",
         "projectName": "devtest",
-        "projectPath": "C:\\Users\\kimkozlov\\source\\repos\\devtest\\devtest\\devtest.csproj",
-        "packagesPath": "C:\\Users\\kimkozlov\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kimkozlov\\source\\repos\\devtest\\devtest\\obj\\",
+        "projectPath": "C:\\dotnetDevExtreme\\devtest\\devtest\\devtest.csproj",
+        "packagesPath": "C:\\Users\\K.Kozlov\\.nuget\\packages\\",
+        "outputPath": "C:\\dotnetDevExtreme\\devtest\\devtest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\kimkozlov\\source\\repos\\devtest\\NuGet.Config",
-          "C:\\Users\\kimkozlov\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 19.2.config",
+          "C:\\dotnetDevExtreme\\devtest\\NuGet.Config",
+          "C:\\Users\\K.Kozlov\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net461"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\DevExpress 19.2\\Components\\System\\Components\\Packages": {},
           "C:\\Program Files (x86)\\DevExpress 19.2\\DevExtreme\\System\\DevExtreme\\Bin\\AspNetCore": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
@@ -102,7 +100,7 @@
               "version": "[12.0.3, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {
