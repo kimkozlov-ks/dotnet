@@ -43,18 +43,20 @@ namespace devtest.Controllers {
                         var phone = res["phone"].ToString();
                         var gender = res["gender"].ToString();
                         var name = res["name"]["first"] + " " + res["name"]["last"];
+                        var city = res["location"]["city"].ToString();
                         var street = res["location"]["street"]["number"] + " " + res["location"]["street"]["name"];
                         var email = res["email"].ToString();
                         var picture = res["picture"]["thumbnail"].ToString();
 
                         users.Add(new User()
                         {
+                            Picture = picture,
                             Name = name,
                             Gender = gender,
                             Phone = phone,
-                            Location = street,
+                            City = city,
+                            Street = street,
                             Email = email,
-                            Picture = picture
                         });
                     }
                 }
