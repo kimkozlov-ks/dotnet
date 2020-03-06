@@ -1,29 +1,97 @@
-@using FrontendDevExtremApp.Models
+@using devtest.Models
 
 <h2>Home</h2>
 
-@(Html.DevExtreme().DataGrid<SampleOrder>()
-    .ShowBorders(true)
-    .DataSource(d => d.Mvc().Controller("SampleData").LoadAction("Get").Key("OrderID"))
-    .Columns(columns => {
-        columns.AddFor(m => m.OrderID);
-        columns.AddFor(m => m.OrderDate);
-        columns.AddFor(m => m.CustomerName);
-        columns.AddFor(m => m.ShipCountry);
-        columns.AddFor(m => m.ShipCity);
+
+<div class="form-check form-group">
+    <input class="form-check-input" type="checkbox" id="checkboxPhone" value="option1">
+    <label class="form-check-label" for="inlineCheckbox1">Enable/disable column "Phone"</label>
+</div>
+<div class="form-check form-group">
+    <input class="form-check-input" type="checkbox" id="checkboxGender" value="option2">
+    <label class="form-check-label" for="checkboxGender">Enable/disable column "Gender"</label>
+</div>
+
+<script>
+    class Checkbox {
+            constructor(id, checked) {
+                    this.id = id;
+                    this.checked = checked;
+            }
+    }
+
+    var checkboxesFromLocalStorage = JSON.parse(localStorage.getItem('checkboxDevExtreme'));
+    console.log(checkboxesFromLocalStorage);
+
+   
+
+    var checkboxPhone = new Checkbox("#checkboxPhone", checkboxesFromLocalStorage[0].checked);
+    var checkboxGender = new Checkbox("#checkboxGender", checkboxesFromLocalStorage[1].checked);
+
+     $(checkboxPhone.id).prop('checked', checkboxPhone.checked);
+     $(checkboxGender.id).prop('checked', checkboxGender.checked);
+
+    $(checkboxPhone.id)
+
+    $(function () {
+        $(checkboxPhone.id).click(function () {
+            checkboxPhone.checked = ($(this).is(":checked") ? true : false);
+            console.log(checkboxPhone.id + ": " + checkboxPhone.checked);
+        });
+    });
+
+    $(function () {
+        $(checkboxGender.id).click(function () {
+            checkboxGender.checked = ($(this).is(":checked") ? true : false);
+            console.log(checkboxGender.id + ": " + checkboxGender.checked);
+        });
+    });
+
+    window.onbeforeunload = function (event) {
+        console.log(JSON.stringify([checkboxPhone, checkboxGender]));
+        window.localStorage.setItem('checkboxDevExtreme', JSON.stringify([checkboxPhone, checkboxGender]));
+
+        return null;
+    };
+        
+</script>
+
+@(Html.DevExtreme().DataGrid<User>()
+        .ShowBorders(true)
+        .DataSource(d => d.Mvc().Controller("SampleData").LoadAction("Get").Key("Phone"))
+        .Columns(columns => {
+        columns.AddFor(m => m.Picture).Width(60)
+        .AllowFiltering(false)
+        .AllowSorting(false)
+        .CellTemplate(@<text>
+            <div>
+                <img src="<%- value %>" alt="" />
+            </div>
+            </text>); ;
+        columns.AddFor(m => m.Name);
+        columns.AddFor(m => m.Gender);
+        columns.AddFor(m => m.Phone);
+        columns.AddFor(m => m.City);
+        columns.AddFor(m => m.Street);
+        columns.AddFor(m => m.Email);
     })
-    .Paging(p => p.PageSize(10))
+    .Paging(p => p.PageSize(25))
     .FilterRow(f => f.Visible(true))
     .HeaderFilter(f => f.Visible(true))
     .GroupPanel(p => p.Visible(true))
-    .Grouping(g => g.AutoExpandAll(false))
+    .StateStoring(s => s
+        .Enabled(true)
+        .Type(StateStoringType.LocalStorage)
+        .StorageKey("storage"))
+    .Grouping(g => g.AutoExpandAll(true))
     .RemoteOperations(true)
+    .ColumnAutoWidth(true)
     .Summary(s => s
-        .TotalItems(totalItems => {
-            totalItems.AddFor(m => m.ShipCity).SummaryType(SummaryType.Count);
-        })
-        .GroupItems(groupItems => {
-            groupItems.Add().SummaryType(SummaryType.Count);
-        })
+    .TotalItems(totalItems => {
+        totalItems.AddFor(m => m.Phone).SummaryType(SummaryType.Count);
+    })
+    .GroupItems(groupItems => {
+        groupItems.Add().SummaryType(SummaryType.Count);
+    })
     )
 )
