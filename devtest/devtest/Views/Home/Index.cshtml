@@ -56,11 +56,10 @@
         
 </script>
 
-@(Html.DevExtreme().DataGrid<TestData>()
+@(Html.DevExtreme().DataGrid<User>()
     .ShowBorders(true)
     .DataSource(d => d.Mvc().Controller("SampleData").LoadAction("Get").Key("Phone"))
-    .Columns(columns =>
-        {
+    .Columns(columns => {
         columns.AddFor(m => m.Picture).Width(60)
             .AllowFiltering(false)
             .AllowSorting(false)
@@ -69,30 +68,28 @@
                 <img src="<%- value %>" alt="" />
             </div>
             </text>); ;
-columns.AddFor(m => m.Name);
-columns.AddFor(m => m.Gender);
-columns.AddFor(m => m.Phone);
-columns.AddFor(m => m.Email);
-columns.AddFor(m => m.Location);
-})
-.Paging(p => p.PageSize(25))
-.FilterRow(f => f.Visible(true))
-.HeaderFilter(f => f.Visible(true))
-.GroupPanel(p => p.Visible(true))
-.StateStoring(s => s
-.Enabled(true)
-.Type(StateStoringType.LocalStorage)
-.StorageKey("storage"))
-.Grouping(g => g.AutoExpandAll(false))
-.RemoteOperations(true)
-.Summary(s => s
-.TotalItems(totalItems =>
-              {
-totalItems.AddFor(m => m.Phone).SummaryType(SummaryType.Count);
-})
-.GroupItems(groupItems =>
-              {
-groupItems.Add().SummaryType(SummaryType.Count);
-})
-)
+        columns.AddFor(m => m.Name);
+        columns.AddFor(m => m.Gender);
+        columns.AddFor(m => m.Phone);
+        columns.AddFor(m => m.Email);
+        columns.AddFor(m => m.Location);
+        })
+    .Paging(p => p.PageSize(25))
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+    .GroupPanel(p => p.Visible(true))
+    .StateStoring(s => s
+    .Enabled(true)
+    .Type(StateStoringType.LocalStorage)
+    .StorageKey("storage"))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(true)
+    .Summary(s => s
+    .TotalItems(totalItems => {
+        totalItems.AddFor(m => m.Phone).SummaryType(SummaryType.Count);
+        })
+    .GroupItems(groupItems => {
+        groupItems.Add().SummaryType(SummaryType.Count);
+        })
+    )
 )

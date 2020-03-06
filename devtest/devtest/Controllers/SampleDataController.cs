@@ -8,6 +8,7 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace devtest.Controllers {
 
@@ -17,6 +18,8 @@ namespace devtest.Controllers {
         [HttpGet]
         public object Get(DataSourceLoadOptions loadOptions) 
         {
+            List<User> users = new List<User>();
+
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://randomuser.me/api/?inc=gender,seed=foobar,results=100");
@@ -26,43 +29,44 @@ namespace devtest.Controllers {
 
                 var result = responseTask.Result;
 
-
                 if (result.IsSuccessStatusCode)
                 {
                     var readTask = result.Content.ReadAsStringAsync();
                     readTask.Wait();
 
-                    var downloadedUsers = JsonConvert.DeserializeObject<DownloadedUsers>(readTask.Result);
+                    JObject dataFromApi = JObject.Parse(readTask.Result);
 
-                    SampleData.users = downloadedUsers.Users;
+                    IList<JToken> results = dataFromApi["results"].Children().ToList();
+
+                    foreach(var res in results)
+                    {
+                        var phone = res["phone"].ToString();
+                        var gender = res["gender"].ToString();
+                        var name = res["name"]["first"] + " " + res["name"]["last"];
+                        var street = res["location"]["street"]["number"] + " " + res["location"]["street"]["name"];
+                        var email = res["email"].ToString();
+                        var picture = res["picture"]["thumbnail"].ToString();
+
+                        users.Add(new User()
+                        {
+                            Name = name,
+                            Gender = gender,
+                            Phone = phone,
+                            Location = street,
+                            Email = email,
+                            Picture = picture
+                        });
+                    }
                 }
                 else
                 {
-                    //Error response received   
                     ModelState.AddModelError(string.Empty, "Server error try after some time.");
                 }
             }
 
             List<TestData> testData = new List<TestData>();
 
-            foreach (var user in SampleData.users)
-            {
-                var testUser = new TestData()
-                {
-                    Name = user.Name.FirstName + " " + user.Name.LastName,
-                    Gender = user.Gender,
-                    Phone = user.Phone,
-                    Email = user.Email,
-                    Location = user.Location.Street.Name + " " + user.Location.Street.Number,
-                    Picture =  user.Picture.Thumbnail
-                };
-
-
-                testData.Add(testUser);
-            }
-
-            return DataSourceLoader.Load(testData, loadOptions);
+            return DataSourceLoader.Load(users, loadOptions);
         }
-
     }
 }

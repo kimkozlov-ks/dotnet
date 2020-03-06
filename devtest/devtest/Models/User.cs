@@ -9,17 +9,11 @@ namespace devtest.Models
 {
     public class User
     {
-        [JsonProperty("name")]
-        public UserName Name { get; set; }
-        [JsonProperty("gender")]
+        public string Name { get; set; }
         public string Gender { get; set; }
-        [JsonProperty("phone")]
         public string Phone { get; set; }
-        [JsonProperty("email")]
         public string Email { get; set; }
-        [JsonProperty("location")]
-        public UserLocation Location { get; set; }
-        [JsonProperty("picture")]
-        public Picture Picture { get; set; }
+        public string Location { get; set; }
+        public string Picture { get; set; }
     }
 }
