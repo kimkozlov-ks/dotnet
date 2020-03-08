@@ -12,49 +12,7 @@
     <label class="form-check-label" for="checkboxGender">Enable/disable column "Gender"</label>
 </div>
 
-<script>
-    class Checkbox {
-            constructor(id, checked) {
-                    this.id = id;
-                    this.checked = checked;
-            }
-    }
-
-    var checkboxesFromLocalStorage = JSON.parse(localStorage.getItem('checkboxDevExtreme'));
-    console.log(checkboxesFromLocalStorage);
-
-   
-
-    var checkboxPhone = new Checkbox("#checkboxPhone", checkboxesFromLocalStorage[0].checked);
-    var checkboxGender = new Checkbox("#checkboxGender", checkboxesFromLocalStorage[1].checked);
-
-     $(checkboxPhone.id).prop('checked', checkboxPhone.checked);
-     $(checkboxGender.id).prop('checked', checkboxGender.checked);
-
-    $(checkboxPhone.id)
-
-    $(function () {
-        $(checkboxPhone.id).click(function () {
-            checkboxPhone.checked = ($(this).is(":checked") ? true : false);
-            console.log(checkboxPhone.id + ": " + checkboxPhone.checked);
-        });
-    });
-
-    $(function () {
-        $(checkboxGender.id).click(function () {
-            checkboxGender.checked = ($(this).is(":checked") ? true : false);
-            console.log(checkboxGender.id + ": " + checkboxGender.checked);
-        });
-    });
-
-    window.onbeforeunload = function (event) {
-        console.log(JSON.stringify([checkboxPhone, checkboxGender]));
-        window.localStorage.setItem('checkboxDevExtreme', JSON.stringify([checkboxPhone, checkboxGender]));
-
-        return null;
-    };
-        
-</script>
+<script src="~/SettingsComponent.js"></script>
 
 @(Html.DevExtreme().DataGrid<User>()
         .ShowBorders(true)
