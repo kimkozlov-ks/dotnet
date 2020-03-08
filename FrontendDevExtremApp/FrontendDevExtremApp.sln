@@ -10,7 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevExtreme NuGet.config", "
 		NuGet.config = NuGet.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{65FABF56-AFED-4119-AD2F-25B833808847}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{65FABF56-AFED-4119-AD2F-25B833808847}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{281855FE-E9E6-4DF0-8DDC-8116DD681256}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{65FABF56-AFED-4119-AD2F-25B833808847}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65FABF56-AFED-4119-AD2F-25B833808847}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65FABF56-AFED-4119-AD2F-25B833808847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{281855FE-E9E6-4DF0-8DDC-8116DD681256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{281855FE-E9E6-4DF0-8DDC-8116DD681256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{281855FE-E9E6-4DF0-8DDC-8116DD681256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{281855FE-E9E6-4DF0-8DDC-8116DD681256}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
