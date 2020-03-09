@@ -9,10 +9,15 @@ namespace Services
 {
     public class DataLoader
     {
+        private List<User> users  = new List<User>();
+
         public List<User> GetData()
         {
-            List<User> users = new List<User>();
+            return users;
+        }
 
+        public List<User> LoadData()
+        {
             using (var client = new HttpClient())
             {
                 var responseTask = client.GetAsync(new Uri("https://randomuser.me/api/?inc=gender,name,location,email,phone,picture&seed=foobar&results=100&noinfo"));

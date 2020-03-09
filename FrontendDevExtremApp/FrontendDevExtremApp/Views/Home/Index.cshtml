@@ -73,7 +73,7 @@ groupItems.Add().SummaryType(SummaryType.Count);
                                .CalculateCellValue(@"function(rowData) { return rowData.Status == ""Completed""; }");
                        })
                        .DataSource(d => d.Mvc()
-                           .Controller("SampleData")
+                           .Controller("MasterDetail")
                            .LoadAction("GetDetails")
                            .LoadParams(new { phone = new JS("data.Phone") })
                        )
