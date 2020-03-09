@@ -7,41 +7,37 @@ class Checkbox {
     }
 }
 
-let checkboxPhone = new Checkbox("#checkboxPhone", false);
-let checkboxGender = new Checkbox("#checkboxGender", false);
+let checkboxes = new Array();
+checkboxes.push(new Checkbox("#checkboxPhone", false));
+checkboxes.push(new Checkbox("#checkboxGender", false));
+checkboxes.push(new Checkbox("#checkboxCity", false));
+checkboxes.push(new Checkbox("#checkboxStreet", false));
+checkboxes.push(new Checkbox("#checkboxEmail", false));
 
-const data = localStorage.getItem('checkboxDevExtreme');
-console.log(data);
-
-const checkboxesFromLocalStorage = JSON.parse(data);
+const dataFromLocalStorage = localStorage.getItem('checkboxDevExtreme');
+const checkboxesFromLocalStorage = JSON.parse(dataFromLocalStorage);
 
 if (checkboxesFromLocalStorage != null) {
-
-    checkboxPhone.checked = checkboxesFromLocalStorage[0].checked;
-    checkboxGender.checked = checkboxesFromLocalStorage[1].checked;
+    for (let index in checkboxesFromLocalStorage) {
+        checkboxes[index].checked = checkboxesFromLocalStorage[index].checked;
+    }
 }
 
-$(checkboxPhone.id).prop('checked', checkboxPhone.checked);
-$(checkboxGender.id).prop('checked', checkboxGender.checked);
-
-$(function () {
-    $(checkboxPhone.id).click(function () {
-        checkboxPhone.checked = ($(this).is(":checked") ? true : false);
-        console.log(checkboxPhone.id + ": " + checkboxPhone.checked);
+for (let checkbox of checkboxes) {
+    $(function () {
+        $(checkbox.id).click(function () {
+            checkbox.checked = ($(this).is(":checked") ? true : false);
+            console.log(checkbox.id + ": " + checkbox.checked);
+        });
     });
-});
+}
 
-$(function () {
-    $(checkboxGender.id).click(function () {
-        checkboxGender.checked = ($(this).is(":checked") ? true : false);
-        console.log(checkboxGender.id + ": " + checkboxGender.checked);
-    });
-});
-  
+for (let checkbox of checkboxes) {
+    $(checkbox.id).prop('checked', checkbox.checked);
+}
 
 window.onbeforeunload = function (event) {
-    console.log(JSON.stringify([checkboxPhone, checkboxGender]));
-    window.localStorage.setItem('checkboxDevExtreme', JSON.stringify([checkboxPhone, checkboxGender]));
+    window.localStorage.setItem('checkboxDevExtreme', JSON.stringify(checkboxes));
 
     return null;
 };

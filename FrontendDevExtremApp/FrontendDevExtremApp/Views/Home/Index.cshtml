@@ -11,12 +11,24 @@
     <input class="form-check-input" type="checkbox" id="checkboxGender" value="option2">
     <label class="form-check-label" for="checkboxGender">Enable/disable column "Gender"</label>
 </div>
+<div class="form-check form-group">
+    <input class="form-check-input" type="checkbox" id="checkboxCity" value="option3">
+    <label class="form-check-label" for="checkboxGender">Enable/disable column "City"</label>
+</div>
+<div class="form-check form-group">
+    <input class="form-check-input" type="checkbox" id="checkboxStreet" value="option4">
+    <label class="form-check-label" for="checkboxGender">Enable/disable column "Street"</label>
+</div>
+<div class="form-check form-group">
+    <input class="form-check-input" type="checkbox" id="checkboxEmail" value="option5">
+    <label class="form-check-label" for="checkboxGender">Enable/disable column "Email"</label>
+</div>
 
 <script src="~/js/SettingsComponent.js"></script>
 
 @(Html.DevExtreme().DataGrid<User>()
         .ShowBorders(true)
-        .DataSource(d => d.Mvc().Controller("SampleData").LoadAction("Get").Key("Phone"))
+        .DataSource(d => d.Mvc().Controller("DataGrid").LoadAction("Get").Key("Phone"))
         .Columns(columns =>
             {
         columns.AddFor(m => m.Picture).Width(60)
