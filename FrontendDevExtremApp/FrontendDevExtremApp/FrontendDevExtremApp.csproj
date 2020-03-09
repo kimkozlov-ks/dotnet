@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="JS\**" />
+    <Content Remove="JS\**" />
+    <EmbeddedResource Remove="JS\**" />
+    <None Remove="JS\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Models\User.cs" />
   </ItemGroup>
 
@@ -18,16 +25,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="JS\" />
+    <ProjectReference Include="..\Services\Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\SettingsComponent.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Services\Services.csproj" />
+    <None Include="wwwroot\js\SettingsComponent.js" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties TemplateFeatures="NETCORE CS BASELINE" /></VisualStudio></ProjectExtensions>
