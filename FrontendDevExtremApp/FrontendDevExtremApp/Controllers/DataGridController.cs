@@ -6,7 +6,7 @@ using Services;
 namespace FrontendDevExtremApp.Controllers {
 
     [Route("api/[controller]")]
-    public class SampleDataController : Controller {
+    public class DataGridController : Controller {
 
   
         [HttpGet]
