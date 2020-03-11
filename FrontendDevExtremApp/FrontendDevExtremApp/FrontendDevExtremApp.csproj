@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\ComponentSettings.cs" />
     <Compile Remove="Models\User.cs" />
   </ItemGroup>
 
@@ -30,6 +31,10 @@
 
   <ItemGroup>
     <None Include="wwwroot\js\SettingsComponent.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties TemplateFeatures="NETCORE CS BASELINE" /></VisualStudio></ProjectExtensions>

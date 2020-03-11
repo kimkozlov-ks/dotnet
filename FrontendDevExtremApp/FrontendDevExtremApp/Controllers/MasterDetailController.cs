@@ -2,7 +2,7 @@
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Services;
-using DataModel.Models;
+using DataModel;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,10 +12,8 @@ namespace FrontendDevExtremApp.Controllers
     public class MasterDetailController : Controller
     {
         [HttpGet]
-        public object GetDetails(string phone, DataSourceLoadOptions loadOptions)
+        public object GetDetails(string phone, DataSourceLoadOptions loadOptions, DataLoader dataLoader)
         {
-            var dataLoader = new DataLoader();
-
             List<User> masterDetails = dataLoader.LoadData().Where(e => e.Phone == phone).ToList();
             return DataSourceLoader.Load(masterDetails, loadOptions);
         }

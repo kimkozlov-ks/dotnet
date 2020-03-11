@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using DataModel.Models;
+using DataModel;
 
 namespace Services
 {
     public class DataLoader
     {
         private List<User> users  = new List<User>();
+        public List<ComponentSettings> ComponentSettings { get; set; }
 
         public List<User> GetData()
         {

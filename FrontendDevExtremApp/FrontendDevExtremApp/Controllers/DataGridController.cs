@@ -10,13 +10,9 @@ namespace FrontendDevExtremApp.Controllers {
 
   
         [HttpGet]
-        public object Get(DataSourceLoadOptions loadOptions) 
+        public object Get(DataSourceLoadOptions loadOptions, DataLoader dataLoader) 
         {
-            var dataLoader = new DataLoader();
-
             return DataSourceLoader.Load(dataLoader.LoadData(), loadOptions);
         }
-        
-
     }
 }

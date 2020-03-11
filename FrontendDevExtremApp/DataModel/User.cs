@@ -1,5 +1,5 @@
-﻿namespace DataModel.Models
-{
+﻿namespace DataModel 
+{ 
     public class User
     {
         public string Picture { get; set; }

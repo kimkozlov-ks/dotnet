@@ -19,7 +19,7 @@ const checkboxesFromLocalStorage = JSON.parse(dataFromLocalStorage);
 
 if (checkboxesFromLocalStorage != null) {
     for (let index in checkboxesFromLocalStorage) {
-        checkboxes[index].isChecked = checkboxesFromLocalStorage[index].checked;
+        checkboxes[index].isChecked = checkboxesFromLocalStorage[index].isChecked;
     }
 }
 
@@ -34,7 +34,6 @@ for (let checkbox of checkboxes) {
 
 for (let checkbox of checkboxes) {
     $(checkbox.id).prop('checked', checkbox.isChecked);
-    console.log(checkbox);
 }
 
 $.ajax({
@@ -43,15 +42,6 @@ $.ajax({
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data: JSON.stringify(checkboxes),
-    success: function (valid) {
-        if (valid) {
-            //show that id is valid
-            console.log("setstate true");
-        } else {
-            //show that id is not valid
-            console.log("setstate false");
-        }
-    }
 });
 
 window.onbeforeunload = function (event) {
