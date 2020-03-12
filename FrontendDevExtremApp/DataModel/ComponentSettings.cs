@@ -8,8 +8,16 @@ namespace DataModel
 {
     public class ComponentSettings
     {
-        public string id { get; set; }
+        private string _id;
+        public string Id 
+        { 
+            get => _id; 
+            set
+            {
+                _id = value.Replace("#checkbox", "");
+            }
+        }
         
-        public bool isChecked { get; set; }
+        public bool IsChecked { get; set; }
     }
 }

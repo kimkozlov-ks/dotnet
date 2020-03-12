@@ -11,10 +11,17 @@ namespace FrontendDevExtremApp.Controllers
     [Route("api/[controller]")]
     public class MasterDetailController : Controller
     {
-        [HttpGet]
-        public object GetDetails(string phone, DataSourceLoadOptions loadOptions, DataLoader dataLoader)
+        private readonly IDataLoader _dataLoader;
+
+        public MasterDetailController(IDataLoader dataLoader)
         {
-            List<User> masterDetails = dataLoader.LoadData().Where(e => e.Phone == phone).ToList();
+            _dataLoader = dataLoader;
+        }
+
+        [HttpGet]
+        public object GetDetails(string phone, DataSourceLoadOptions loadOptions)
+        {
+            List<User> masterDetails = _dataLoader.GetData().Where(e => e.Phone == phone).ToList();
             return DataSourceLoader.Load(masterDetails, loadOptions);
         }
     }

@@ -9,11 +9,18 @@ using Services;
 namespace FrontendDevExtremApp.Controllers
 {   
     public class ComponentController : Controller
-    {   
-        [HttpPost]
-        public IActionResult SetState([FromBody]ComponentSettings[] componentSettings, DataLoader dataLoader)
+    {
+        private readonly IDataLoader _dataLoader;
+
+        public ComponentController(IDataLoader dataLoader)
         {
-            dataLoader.ComponentSettings = componentSettings.ToList();
+            _dataLoader = dataLoader;
+        }
+
+        [HttpPost]
+        public IActionResult SetState([FromBody]ComponentSettings[] componentSettings)
+        {
+            _dataLoader.AddSettings(componentSettings.ToList());
 
             return Ok("OK");
         }

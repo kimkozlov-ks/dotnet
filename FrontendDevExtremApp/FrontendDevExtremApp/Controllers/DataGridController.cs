@@ -6,13 +6,18 @@ using Services;
 namespace FrontendDevExtremApp.Controllers {
 
     [Route("api/[controller]")]
-    public class DataGridController : Controller {
-
-  
-        [HttpGet]
-        public object Get(DataSourceLoadOptions loadOptions, DataLoader dataLoader) 
+    public class DataGridController : Controller 
+    {
+        private readonly IDataLoader _dataLoader;
+        public DataGridController(IDataLoader dataLoader)
         {
-            return DataSourceLoader.Load(dataLoader.LoadData(), loadOptions);
+            _dataLoader = dataLoader;
+        }
+
+        [HttpGet]
+        public object Get(DataSourceLoadOptions loadOptions) 
+        {
+            return DataSourceLoader.Load(_dataLoader.LoadData(), loadOptions);
         }
     }
 }

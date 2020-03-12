@@ -7,10 +7,10 @@ using DataModel;
 
 namespace Services
 {
-    public class DataLoader
+    public class DataLoader : IDataLoader
     {
         private List<User> users  = new List<User>();
-        public List<ComponentSettings> ComponentSettings { get; set; }
+        public List<ComponentSettings> ComponentSettings = new List<ComponentSettings>();
 
         public List<User> GetData()
         {
@@ -21,7 +21,9 @@ namespace Services
         {
             using (var client = new HttpClient())
             {
-                var responseTask = client.GetAsync(new Uri("https://randomuser.me/api/?inc=gender,name,location,email,phone,picture&seed=foobar&results=100&noinfo"));
+                var url = makeUrl();
+
+                var responseTask = client.GetAsync(url);
                 responseTask.Wait();
 
                 var result = responseTask.Result;
@@ -46,24 +48,37 @@ namespace Services
 
             foreach (var res in results)
             {
-                var phone = res["phone"].ToString();
-                var gender = res["gender"].ToString();
-                var name = res["name"]["first"] + " " + res["name"]["last"];
-                var city = res["location"]["city"].ToString();
-                var street = res["location"]["street"]["number"] + " " + res["location"]["street"]["name"];
-                var email = res["email"].ToString();
-                var picture = res["picture"]["thumbnail"].ToString();
+                var user = new User();
 
-                users.Add(new User()
+                if(res["phone"] != null)
                 {
-                    Picture = picture,
-                    Name = name,
-                    Gender = gender,
-                    Phone = phone,
-                    City = city,
-                    Street = street,
-                    Email = email,
-                });
+                    user.Phone = Convert.ToString(res["phone"]);
+                }
+
+                if (res["gender"] != null)
+                {
+                    user.Gender = Convert.ToString(res["gender"]);
+                }
+
+                user.Name = res["name"]["first"] + " " + res["name"]["last"];
+
+                if (res["location"] != null)
+                {
+                    user.City = res["location"]["city"].ToString();
+                    user.Street = res["location"]["street"]["number"] + " " + res["location"]["street"]["name"];
+                }
+
+                if (res["email"] != null)
+                {
+                    user.Email = res["email"].ToString();
+                }
+
+                if (res["picture"] != null)
+                {
+                    user.Picture = res["picture"]["thumbnail"].ToString();
+                }
+
+                users.Add(user);
             }
 
             return users;
@@ -79,6 +94,28 @@ namespace Services
             IList<JToken> results = dataFromApi["results"].Children().ToList();
 
             return results;
+        }
+
+        private Uri makeUrl()
+        {
+            string url = "https://randomuser.me/api/?inc=name,picture";
+
+            foreach(var setting in ComponentSettings)
+            {
+                if(setting.IsChecked)
+                {
+                    url += "," + setting.Id.ToLower();
+                }
+            }
+
+            url += "&seed=foobar&results=100&noinfo";
+
+            return new Uri(url);
+        }
+
+        public void AddSettings(List<ComponentSettings> componentSettings)
+        {
+            ComponentSettings = componentSettings;
         }
     }
 }
