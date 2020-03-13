@@ -9,12 +9,12 @@ namespace Services
 {
     public class DataLoader : IDataLoader
     {
-        private List<User> users  = new List<User>();
-        public List<ComponentSettings> ComponentSettings = new List<ComponentSettings>();
+        private List<User> _users  = new List<User>();
+        private List<ComponentSettings> _componentSettings = new List<ComponentSettings>();
 
         public List<User> GetData()
         {
-            return users;
+            return _users;
         }
 
         public List<User> LoadData()
@@ -31,7 +31,7 @@ namespace Services
                 if (result.IsSuccessStatusCode)
                 {
                     IList<JToken> results = ReadResult(result);
-                    users = ParseResults(results);
+                    _users = ParseResults(results);
                 }
                 else
                 {
@@ -39,7 +39,7 @@ namespace Services
                 }
             }
 
-            return users;
+            return _users;
         }
 
         private List<User> ParseResults(IList<JToken> results)
@@ -100,7 +100,7 @@ namespace Services
         {
             string url = "https://randomuser.me/api/?inc=name,picture";
 
-            foreach(var setting in ComponentSettings)
+            foreach(var setting in _componentSettings)
             {
                 if(setting.IsChecked)
                 {
@@ -115,7 +115,7 @@ namespace Services
 
         public void AddSettings(List<ComponentSettings> componentSettings)
         {
-            ComponentSettings = componentSettings;
+            _componentSettings = componentSettings;
         }
     }
 }

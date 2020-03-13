@@ -28,11 +28,26 @@ for (let checkbox of checkboxes) {
         $(checkbox.id).click(function () {
             checkbox.isChecked = ($(this).is(":checked") ? true : false);
             console.log(checkbox.id + ": " + checkbox.isChecked);
+            
         });
     });
 }
 
-for (let checkbox of checkboxes) {
+$(function () {
+    $('#confirm-button').click(function () {
+        $.ajax({
+            url: 'Component/SetState',
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(checkboxes),
+        });
+
+        location.reload();
+    });
+});
+
+for(let checkbox of checkboxes) {
     $(checkbox.id).prop('checked', checkbox.isChecked);
 }
 
