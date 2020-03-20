@@ -20,7 +20,7 @@ namespace FrontendDevExtremApp.Controllers
         [HttpPost]
         public IActionResult SetState([FromBody]ComponentSettings[] componentSettings)
         {
-            _dataLoader.AddSettings(componentSettings.ToList());
+            //_dataLoader.AddSettings(componentSettings.ToList());
 
             return Ok("OK");
         }

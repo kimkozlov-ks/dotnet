@@ -1,4 +1,5 @@
 @using DataModel;
+@model List<ComponentSettings>
 
 <h2>Home</h2>
 
@@ -30,23 +31,23 @@
 <script src="~/js/SettingsComponent.js"></script>
 
 @(Html.DevExtreme().DataGrid<User>()
-        .ID("gridContainer")
-        .ShowBorders(true)
-        .DataSource(d => d.Mvc().Controller("DataGrid").LoadAction("Get").Key("Phone"))
-        .Columns(columns =>
-        {
-            columns.AddFor(m => m.Picture).Width(60)
-            .AllowFiltering(false)
-            .AllowSorting(false)
-            .CellTemplate(@<text>
-                    <div>
-                        <img src="<%- value %>" alt="" />
-                    </div>
-                    </text>); ;
-             columns.AddFor(m => m.Name);
-             columns.AddFor(m => m.Gender);
-             columns.AddFor(m => m.Phone);
-         })
+                .ID("gridContainer")
+                .ShowBorders(true)
+                .DataSource(d => d.Mvc().Controller("DataGrid").LoadAction("Get").Key("Phone"))
+                .Columns(columns =>
+                {
+                    columns.AddFor(m => m.Picture).Width(60)
+                    .AllowFiltering(false)
+                    .AllowSorting(false)
+                    .CellTemplate(@<text>
+                        <div>
+                            <img src="<%- value %>" alt="" />
+                        </div>
+                        </text>);
+                    columns.AddFor(m => m.Name);
+                    columns.AddFor(m => m.Gender).Visible(Model[1].IsChecked);
+                    columns.AddFor(m => m.Phone).Visible(Model[0].IsChecked);
+                })
         .Paging(p => p.PageSize(25))
         .FilterRow(f => f.Visible(true))
         .HeaderFilter(f => f.Visible(true))
@@ -61,40 +62,43 @@
         .Summary(s => s
         .TotalItems(totalItems =>
         {
-        totalItems.AddFor(m => m.Phone).SummaryType(SummaryType.Count);
+            totalItems.AddFor(m => m.Phone).SummaryType(SummaryType.Count);
         })
         .GroupItems(groupItems =>
         {
-        groupItems.Add().SummaryType(SummaryType.Count);
-        })
-        )
+            groupItems.Add().SummaryType(SummaryType.Count);
+        }))
         .MasterDetail(md =>
-                     {
-         md.Enabled(true);
-         md.Template(@<text>
-                            @(Html.DevExtreme().DataGrid<User>()
-                               .ColumnAutoWidth(true)
-                               .ShowBorders(true)
-                               .Columns(columns =>
-                                               {
-                                   columns.AddFor(m => m.City);
+        {
 
-                                   columns.AddFor(m => m.Street);
+            if(Model[2].IsChecked || Model[3].IsChecked || Model[4].IsChecked)
+            { 
+                md.Enabled(true);
+                md.Template(@<text>
+                                @(Html.DevExtreme().DataGrid<User>()
+                                   .ColumnAutoWidth(true)
+                                   .ShowBorders(true)
+                                   .Columns(columns =>
+                                   {
+                                       columns.AddFor(m => m.City).Visible(Model[2].IsChecked);
 
-                                   columns.AddFor(m => m.Email);
+                                       columns.AddFor(m => m.Street).Visible(Model[3].IsChecked);
 
-                                   columns.Add()
-                                       .Caption("Completed")
-                                       .DataType(GridColumnDataType.Boolean)
-                                       .CalculateCellValue(@"function(rowData) { return rowData.Status == ""Completed""; }");
-                               })
-                               .DataSource(d => d.Mvc()
-                                   .Controller("MasterDetail")
-                                   .LoadAction("GetDetails")
-                                   .LoadParams(new { phone = new JS("data.Phone") })
-                               )
-                            ) </text>);
-    })
+                                       columns.AddFor(m => m.Email).Visible(Model[4].IsChecked);
+
+                                       //columns.Add()
+                                       //    .Caption("Completed")
+                                       //    .DataType(GridColumnDataType.Boolean)
+                                       //    .CalculateCellValue(@"function(rowData) { return rowData.Status == ""Completed""; }");
+                                   })
+                                   .DataSource(d => d.Mvc()
+                                       .Controller("MasterDetail")
+                                       .LoadAction("GetDetails")
+                                       .LoadParams(new { phone = new JS("data.Phone") })
+                                   )
+                                ) </text>);
+    
+            }
+        }
+    )
 )
-
-<script> $('#gridContainer')[0].refresh()</script>

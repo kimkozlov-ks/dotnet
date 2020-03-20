@@ -62,5 +62,12 @@ $.ajax({
 window.onbeforeunload = function (event) {
     window.localStorage.setItem('checkboxDevExtreme', JSON.stringify(checkboxes));
 
+    let cookieStr = 'settings=';
+    for (let checkbox of checkboxes) {
+        cookieStr += checkbox.isChecked ? 1 : 0;
+    }
+
+    this.document.cookie = cookieStr;
+
     return null;
 };
