@@ -27,7 +27,7 @@ namespace FrontendDevExtremApp.Controllers
 
                 componentSettings.Add(new ComponentSettings("Phone", Convert.ToBoolean(int.Parse(settings[0].ToString()))));
                 componentSettings.Add(new ComponentSettings("Gender", Convert.ToBoolean(int.Parse(settings[1].ToString()))));
-                componentSettings.Add(new ComponentSettings("City", Convert.ToBoolean(int.Parse(settings[2].ToString()))));
+                componentSettings.Add(new ComponentSettings("Location", Convert.ToBoolean(int.Parse(settings[2].ToString()))));
                 componentSettings.Add(new ComponentSettings("Street", Convert.ToBoolean(int.Parse(settings[3].ToString()))));
                 componentSettings.Add(new ComponentSettings("Email", Convert.ToBoolean(int.Parse(settings[4].ToString()))));  
             }
