@@ -11,6 +11,7 @@ namespace Services
     {
         private List<User> _users  = new List<User>();
         private List<ComponentSettings> _componentSettings = new List<ComponentSettings>();
+        private string _url => string.Empty;
 
         public List<User> GetData()
         {
@@ -19,10 +20,15 @@ namespace Services
 
         public List<User> LoadData()
         {
+            var url = makeUrl();
+
+            if(url.Equals(_url))
+            {
+                return GetData();
+            }
+
             using (var client = new HttpClient())
             {
-                var url = makeUrl();
-
                 var responseTask = client.GetAsync(url);
                 responseTask.Wait();
 
@@ -100,10 +106,21 @@ namespace Services
         {
             string url = "https://randomuser.me/api/?inc=name,picture";
 
+            bool isLocationAdded = false;
             foreach(var setting in _componentSettings)
             {
-                if(setting.IsChecked)
+                if (setting.IsChecked)
                 {
+                    if(setting.Id == "Street" || setting.Id == "City")
+                    {
+                        if (isLocationAdded == false)
+                        {
+                            isLocationAdded = true;
+                            url += ",location";
+                            continue;
+                        }
+                    }
+
                     url += "," + setting.Id.ToLower();
                 }
             }
