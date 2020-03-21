@@ -2,30 +2,32 @@
 @model List<ComponentSettings>
 
 <h2>Home</h2>
-
-
-<div class="form-check form-group">
-    <input class="form-check-input" type="checkbox" id="checkboxPhone" value="option1">
-    <label class="form-check-label" for="inlineCheckbox1">Enable/disable column "Phone"</label>
-</div>
-<div class="form-check form-group">
-    <input class="form-check-input" type="checkbox" id="checkboxGender" value="option2">
-    <label class="form-check-label" for="checkboxGender">Enable/disable column "Gender"</label>
-</div>
-<div class="form-check form-group">
-    <input class="form-check-input" type="checkbox" id="checkboxCity" value="option3">
-    <label class="form-check-label" for="checkboxGender">Enable/disable column "City"</label>
-</div>
-<div class="form-check form-group">
-    <input class="form-check-input" type="checkbox" id="checkboxStreet" value="option4">
-    <label class="form-check-label" for="checkboxGender">Enable/disable column "Street"</label>
-</div>
-<div class="form-check form-group">
-    <input class="form-check-input" type="checkbox" id="checkboxEmail" value="option5">
-    <label class="form-check-label" for="checkboxGender">Enable/disable column "Email"</label>
-</div>
-<div>
-    <button id="confirm-button" type="button" class="btn btn-light">Light</button>
+<style type="text/css">
+</style>
+<div id="component">
+    <div class="form-check form-group">
+        <input class="form-check-input" type="checkbox" id="checkboxPhone" value="option1" checked>
+        <label class="form-check-label" for="inlineCheckboxPhone">Enable/disable column "Phone"</label>
+    </div>
+    <div class="form-check form-group">
+        <input class="form-check-input" type="checkbox" id="checkboxGender" value="option2" checked>
+        <label class="form-check-label" for="inlineCheckboxGender">Enable/disable column "Gender"</label>
+    </div>
+    <div class="form-check form-group">
+        <input class="form-check-input" type="checkbox" id="checkboxCity" value="option3" checked>
+        <label class="form-check-label" for="inlineCheckboxCity">Enable/disable column "City"</label>
+    </div>
+    <div class="form-check form-group">
+        <input class="form-check-input" type="checkbox" id="checkboxStreet" value="option4" checked>
+        <label class="form-check-label" for="inlineCheckboxStreet">Enable/disable column "Street"</label>
+    </div>
+    <div class="form-check form-group">
+        <input class="form-check-input" type="checkbox" id="checkboxEmail" value="option5" checked>
+        <label class="form-check-label" for="inlineCheckboxEmail">Enable/disable column "Email"</label>
+    </div>
+    <div>
+        <button id="confirm-button" type="button" class="btn btn-light">Confirm</button>
+    </div>
 </div>
 
 <script src="~/js/SettingsComponent.js"></script>
