@@ -12,10 +12,10 @@ namespace DataModel
 
         public bool IsChecked;
 
-        public ComponentSettings(string id, bool isCheckes = true)
+        public ComponentSettings(string id, bool isChecked = true)
         {
             Id = id;
-            IsChecked = isCheckes;
+            IsChecked = isChecked;
         }
     }
 }
