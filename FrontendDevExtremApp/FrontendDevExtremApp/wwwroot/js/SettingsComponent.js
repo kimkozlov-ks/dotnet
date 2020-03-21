@@ -8,11 +8,11 @@ class Checkbox {
 }
 
 let checkboxes = new Array();
-checkboxes.push(new Checkbox("#checkboxPhone", false));
-checkboxes.push(new Checkbox("#checkboxGender", false));
-checkboxes.push(new Checkbox("#checkboxCity", false));
-checkboxes.push(new Checkbox("#checkboxStreet", false));
-checkboxes.push(new Checkbox("#checkboxEmail", false));
+checkboxes.push(new Checkbox("#checkboxPhone", true));
+checkboxes.push(new Checkbox("#checkboxGender", true));
+checkboxes.push(new Checkbox("#checkboxCity", true));
+checkboxes.push(new Checkbox("#checkboxStreet", true));
+checkboxes.push(new Checkbox("#checkboxEmail", true));
 
 const dataFromLocalStorage = localStorage.getItem('checkboxDevExtreme');
 const checkboxesFromLocalStorage = JSON.parse(dataFromLocalStorage);
@@ -20,6 +20,11 @@ const checkboxesFromLocalStorage = JSON.parse(dataFromLocalStorage);
 if (checkboxesFromLocalStorage != null) {
     for (let index in checkboxesFromLocalStorage) {
         checkboxes[index].isChecked = checkboxesFromLocalStorage[index].isChecked;
+    }
+}
+else {
+    for (let checkbox of checkboxes) {
+        checkbox.isChecked = $(checkbox.id).isChecked;
     }
 }
 
@@ -60,7 +65,7 @@ $.ajax({
 });
 
 window.onbeforeunload = function (event) {
-    window.localStorage.setItem('checkboxDevExtreme', JSON.stringify(checkboxes));
+	window.localStorage.setItem('checkboxDevExtreme', JSON.stringify(checkboxes));
 
     let cookieStr = 'settings=';
     for (let checkbox of checkboxes) {
