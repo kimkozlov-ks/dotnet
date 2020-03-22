@@ -14,19 +14,6 @@ checkboxes.push(new Checkbox("#checkboxCity", true));
 checkboxes.push(new Checkbox("#checkboxStreet", true));
 checkboxes.push(new Checkbox("#checkboxEmail", true));
 
-const dataFromLocalStorage = localStorage.getItem('checkboxDevExtreme');
-const checkboxesFromLocalStorage = JSON.parse(dataFromLocalStorage);
-
-if (checkboxesFromLocalStorage != null) {
-    for (let index in checkboxesFromLocalStorage) {
-        checkboxes[index].isChecked = checkboxesFromLocalStorage[index].isChecked;
-    }
-}
-else {
-    for (let checkbox of checkboxes) {
-        checkbox.isChecked = $(checkbox.id).isChecked;
-    }
-}
 
 for (let checkbox of checkboxes) {
     $(function () {
@@ -45,26 +32,35 @@ $(function () {
 for(let checkbox of checkboxes) {
     $(checkbox.id).prop('checked', checkbox.isChecked);
 }
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 
-$.ajax({
-    url: 'Component/SetState',
-    type: 'POST',
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    data: JSON.stringify(checkboxes),
-    success: function (data, status, xhttp) {
-        console.log(data);
-        if (data == "true") {
-            for (let checkbox of checkboxes) {
-                checkbox.isChecked = true;
-            }
+if (getCookie("settings") == undefined) {
+    for (let checkbox of checkboxes) {
+        checkbox.isChecked = false;
+    }
+}
+
+else {
+    for (let index in checkboxes) {
+        let cookie = getCookie("settings");
+
+        if (cookie[index] == '0') {
+            checkboxes[index].isChecked = false;
         }
-    },
-});
+        else {
+            checkboxes[index].isChecked = true;
+        }
+
+        $(checkboxes[index].id).prop('checked', checkboxes[index].isChecked);
+    }
+}
 
 window.onbeforeunload = function (event) {
-	window.localStorage.setItem('checkboxDevExtreme', JSON.stringify(checkboxes));
-
     let cookieStr = 'settings=';
     for (let checkbox of checkboxes) {
         cookieStr += checkbox.isChecked ? 1 : 0;
