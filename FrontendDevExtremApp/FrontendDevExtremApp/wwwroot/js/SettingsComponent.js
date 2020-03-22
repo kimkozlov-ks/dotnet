@@ -19,6 +19,15 @@ for (let checkbox of checkboxes) {
     $(function () {
         $(checkbox.id).click(function () {
             checkbox.isChecked = ($(this).is(":checked") ? true : false);
+
+            if (checkbox.id == "#checkboxGender") {
+                if (checkbox.isChecked) {
+                    $("#gender-radio-container").removeClass("d-none")
+
+                } else {
+                    $("#gender-radio-container").addClass("d-none");
+                }
+            }
         });
     });
 }
