@@ -1,10 +1,8 @@
 @using DataModel;
 @model List<ComponentSettings>
 
-<h2>Home</h2>
-<style type="text/css">
-</style>
-<div id="component">
+<h2>Settings</h2>
+<div class="container p-3 my-3 border">
     <div class="form-check form-group">
         <input class="form-check-input" type="checkbox" id="checkboxPhone" value="option1" checked>
         <label class="form-check-label" for="inlineCheckboxPhone">Enable/disable column "Phone"</label>
@@ -26,11 +24,9 @@
         <label class="form-check-label" for="inlineCheckboxEmail">Enable/disable column "Email"</label>
     </div>
     <div>
-        <button id="confirm-button" type="button" class="btn btn-light">Confirm</button>
+        <button id="confirm-button" type="button" class="btn btn-outline-secondary">Confirm</button>
     </div>
 </div>
-
-<script src="~/js/SettingsComponent.js"></script>
 
 @(Html.DevExtreme().DataGrid<User>()
                 .ID("gridContainer")
@@ -42,65 +38,67 @@
                     .AllowFiltering(false)
                     .AllowSorting(false)
                     .CellTemplate(@<text>
-                        <div>
-                            <img src="<%- value %>" alt="" />
-                        </div>
-                        </text>);
-                    columns.AddFor(m => m.Name);
-                    columns.AddFor(m => m.Gender).Visible(Model[1].IsChecked);
-                    columns.AddFor(m => m.Phone).Visible(Model[0].IsChecked);
-                })
-        .Paging(p => p.PageSize(25))
-        .FilterRow(f => f.Visible(true))
-        .HeaderFilter(f => f.Visible(true))
-        .GroupPanel(p => p.Visible(true))
-        .StateStoring(s => s
-        .Enabled(true)
-        .Type(StateStoringType.LocalStorage)
-        .StorageKey("storage"))
-        .Grouping(g => g.AutoExpandAll(true))
-        .RemoteOperations(true)
-        .ColumnAutoWidth(true)
-        .Summary(s => s
-        .TotalItems(totalItems =>
-        {
-            totalItems.AddFor(m => m.Phone).SummaryType(SummaryType.Count);
-        })
-        .GroupItems(groupItems =>
-        {
-            groupItems.Add().SummaryType(SummaryType.Count);
-        }))
-        .MasterDetail(md =>
-        {
+                            <div>
+                                <img src="<%- value %>" alt="" />
+                            </div>
+                    </text>);
+         columns.AddFor(m => m.Name);
+         columns.AddFor(m => m.Gender).Visible(Model[1].IsChecked);
+         columns.AddFor(m => m.Phone).Visible(Model[0].IsChecked);
+     })
+.Paging(p => p.PageSize(25))
+.FilterRow(f => f.Visible(true))
+.HeaderFilter(f => f.Visible(true))
+.GroupPanel(p => p.Visible(true))
+.StateStoring(s => s
+.Enabled(true)
+.Type(StateStoringType.LocalStorage)
+.StorageKey("storage"))
+.Grouping(g => g.AutoExpandAll(true))
+.RemoteOperations(true)
+.ColumnAutoWidth(true)
+.Summary(s => s
+.TotalItems(totalItems =>
+{
+ totalItems.AddFor(m => m.Phone).SummaryType(SummaryType.Count);
+})
+.GroupItems(groupItems =>
+{
+ groupItems.Add().SummaryType(SummaryType.Count);
+}))
+.MasterDetail(md =>
+{
 
-            if(Model[2].IsChecked || Model[3].IsChecked || Model[4].IsChecked)
-            { 
-                md.Enabled(true);
-                md.Template(@<text>
-                                @(Html.DevExtreme().DataGrid<User>()
-                                   .ColumnAutoWidth(true)
-                                   .ShowBorders(true)
-                                   .Columns(columns =>
-                                   {
-                                       columns.AddFor(m => m.City).Visible(Model[2].IsChecked);
+ if (Model[2].IsChecked || Model[3].IsChecked || Model[4].IsChecked)
+ {
+     md.Enabled(true);
+     md.Template(@<text>
+                                        @(Html.DevExtreme().DataGrid<User>()
+                                          .ColumnAutoWidth(true)
+                                          .ShowBorders(true)
+                                          .Columns(columns =>
+                                          {
+                                              columns.AddFor(m => m.City).Visible(Model[2].IsChecked);
 
-                                       columns.AddFor(m => m.Street).Visible(Model[3].IsChecked);
+                                              columns.AddFor(m => m.Street).Visible(Model[3].IsChecked);
 
-                                       columns.AddFor(m => m.Email).Visible(Model[4].IsChecked);
+                                              columns.AddFor(m => m.Email).Visible(Model[4].IsChecked);
 
-                                       //columns.Add()
-                                       //    .Caption("Completed")
-                                       //    .DataType(GridColumnDataType.Boolean)
-                                       //    .CalculateCellValue(@"function(rowData) { return rowData.Status == ""Completed""; }");
-                                   })
-                                   .DataSource(d => d.Mvc()
-                                       .Controller("MasterDetail")
-                                       .LoadAction("GetDetails")
-                                       .LoadParams(new { phone = new JS("data.Phone") })
-                                   )
-                                ) </text>);
-    
-            }
-        }
-    )
+                                              //columns.Add()
+                                              //    .Caption("Completed")
+                                              //    .DataType(GridColumnDataType.Boolean)
+                                              //    .CalculateCellValue(@"function(rowData) { return rowData.Status == ""Completed""; }");
+                                          })
+                                          .DataSource(d => d.Mvc()
+                                              .Controller("MasterDetail")
+                                              .LoadAction("GetDetails")
+                                              .LoadParams(new { phone = new JS("data.Phone") })
+                                          )
+                                        ) </text>);
+
+           }
+       }
+   )
 )
+
+<script src="~/js/SettingsComponent.js"></script>
