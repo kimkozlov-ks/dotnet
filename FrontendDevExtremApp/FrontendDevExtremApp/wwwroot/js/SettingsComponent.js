@@ -32,22 +32,12 @@ for (let checkbox of checkboxes) {
     $(function () {
         $(checkbox.id).click(function () {
             checkbox.isChecked = ($(this).is(":checked") ? true : false);
-            console.log(checkbox.id + ": " + checkbox.isChecked);
-            
         });
     });
 }
 
 $(function () {
     $('#confirm-button').click(function () {
-        $.ajax({
-            url: 'Component/SetState',
-            type: 'POST',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(checkboxes),
-        });
-
         location.reload();
     });
 });
@@ -62,6 +52,14 @@ $.ajax({
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data: JSON.stringify(checkboxes),
+    success: function (data, status, xhttp) {
+        console.log(data);
+        if (data == "true") {
+            for (let checkbox of checkboxes) {
+                checkbox.isChecked = true;
+            }
+        }
+    },
 });
 
 window.onbeforeunload = function (event) {

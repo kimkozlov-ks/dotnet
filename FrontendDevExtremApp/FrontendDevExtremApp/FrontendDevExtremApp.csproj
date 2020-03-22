@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\ComponentController.cs" />
     <Compile Remove="Models\ComponentSettings.cs" />
     <Compile Remove="Models\User.cs" />
   </ItemGroup>
