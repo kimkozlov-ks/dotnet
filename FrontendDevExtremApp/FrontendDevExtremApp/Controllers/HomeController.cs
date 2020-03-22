@@ -11,34 +11,19 @@ namespace FrontendDevExtremApp.Controllers
     public class HomeController : Controller
     {
         private readonly IDataLoader _dataloader;
+        private readonly IParsable<ComponentSettings> _cookiesParser;
 
-        public HomeController(IDataLoader dataLoader)
+        public HomeController(IDataLoader dataLoader, IParsable<ComponentSettings> parser)
         {
             _dataloader = dataLoader;
+            _cookiesParser = parser;
         }
 
         public IActionResult Index()
         {
-            var cookie = Request.Cookies;
-            var componentSettings = new List<ComponentSettings>();
-            if (Request.Cookies["settings"] != null)
-            { 
-                var settings = Request.Cookies["settings"];
+            var cookie = Request.Cookies["settingsf"];
 
-                componentSettings.Add(new ComponentSettings("Phone", Convert.ToBoolean(int.Parse(settings[0].ToString()))));
-                componentSettings.Add(new ComponentSettings("Gender", Convert.ToBoolean(int.Parse(settings[1].ToString()))));
-                componentSettings.Add(new ComponentSettings("Location", Convert.ToBoolean(int.Parse(settings[2].ToString()))));
-                componentSettings.Add(new ComponentSettings("Street", Convert.ToBoolean(int.Parse(settings[3].ToString()))));
-                componentSettings.Add(new ComponentSettings("Email", Convert.ToBoolean(int.Parse(settings[4].ToString()))));  
-            }
-            else
-            {
-                componentSettings.Add(new ComponentSettings("Phone"));
-                componentSettings.Add(new ComponentSettings("Gender"));
-                componentSettings.Add(new ComponentSettings("City"));
-                componentSettings.Add(new ComponentSettings("Street"));
-                componentSettings.Add(new ComponentSettings("Email"));
-            }
+            var componentSettings = _cookiesParser.parse(cookie).ToList();
 
             _dataloader.AddSettings(componentSettings);
 

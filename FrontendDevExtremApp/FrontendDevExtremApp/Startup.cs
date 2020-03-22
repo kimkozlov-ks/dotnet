@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using Services;
+using DataModel;
 
 namespace FrontendDevExtremApp
 {
@@ -29,6 +30,7 @@ namespace FrontendDevExtremApp
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             services.AddSingleton<IDataLoader, DataLoader>();
+            services.AddTransient<IParsable<ComponentSettings>, CookiesParser>();
 
         }
 
