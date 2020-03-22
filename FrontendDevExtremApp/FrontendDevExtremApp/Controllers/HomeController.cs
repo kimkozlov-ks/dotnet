@@ -21,7 +21,7 @@ namespace FrontendDevExtremApp.Controllers
 
         public IActionResult Index()
         {
-            var cookie = Request.Cookies["settingsf"];
+            var cookie = Request.Cookies["settings"];
 
             var componentSettings = _cookiesParser.parse(cookie).ToList();
 
