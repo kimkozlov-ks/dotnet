@@ -48,7 +48,7 @@
 @(Html.DevExtreme().DataGrid<User>()
                 .ID("gridContainer")
                 .ShowBorders(true)
-                .DataSource(d => d.Mvc().Controller("DataGrid").LoadAction("Get").Key("Phone"))
+                .DataSource(d => d.Mvc().Controller("DataGrid").LoadAction("Get").Key("Name"))
                 .Columns(columns =>
                 {
                     columns.AddFor(m => m.Picture).Width(60)
@@ -80,13 +80,13 @@
 .ColumnAutoWidth(true)
 .Summary(s => s
 .TotalItems(totalItems =>
-{
-totalItems.AddFor(m => m.Phone).SummaryType(SummaryType.Count);
-})
+    {
+        totalItems.AddFor(m => m.Name).SummaryType(SummaryType.Count);
+    })
 .GroupItems(groupItems =>
-{
-groupItems.Add().SummaryType(SummaryType.Count);
-}))
+    {
+        groupItems.Add().SummaryType(SummaryType.Count);
+    }))
 .MasterDetail(md =>
 {
 

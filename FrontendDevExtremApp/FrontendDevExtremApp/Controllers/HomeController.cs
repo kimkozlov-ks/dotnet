@@ -25,6 +25,5 @@ namespace FrontendDevExtremApp.Controllers
 
             return View(new ComponentSettings(cookie));
         }
-
     }
 }

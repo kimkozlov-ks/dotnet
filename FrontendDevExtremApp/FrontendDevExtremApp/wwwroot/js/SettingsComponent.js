@@ -1,66 +1,10 @@
 ﻿'use strict'
 
-class Checkbox {
+class checkableControl {
     constructor(id, checked) {
         this.id = id;
         this.isChecked = checked;
     }
-}
-
-let checkboxes = new Array();
-checkboxes.push(new Checkbox("#checkboxPhone", false));
-checkboxes.push(new Checkbox("#checkboxGender", false));
-checkboxes.push(new Checkbox("#checkboxCity", false));
-checkboxes.push(new Checkbox("#checkboxStreet", false));
-checkboxes.push(new Checkbox("#checkboxEmail", false));
-
-let radioButtonsGender = new Array();
-radioButtonsGender.push(new Checkbox("#radio-gender-any", true));
-radioButtonsGender.push(new Checkbox("#radio-gender-male", false));
-radioButtonsGender.push(new Checkbox("#radio-gender-female", false));
-
-
-for (let checkbox of checkboxes) {
-    $(function () {
-        $(checkbox.id).click(function () {
-            checkbox.isChecked = ($(this).is(":checked") ? true : false);
-
-            if (checkbox.id == "#checkboxGender") {
-                if (checkbox.isChecked) {
-                    $("#gender-radio-container").removeClass("d-none")
-
-                } else {
-                    $("#gender-radio-container").addClass("d-none");
-                }
-            }
-        });
-    });
-}
-
-for (let radiobutton of radioButtonsGender) {
-    $("#gender-radio-container").on('change', function () {
-
-        const selectedIndex = $('input[name=genderradio]:checked', "#gender-radio-container").val();
-        console.log(selectedIndex);
-        for (let index in radioButtonsGender) {
-            if (index === selectedIndex)
-            {
-                radioButtonsGender[index].isChecked = true;
-            } else {
-                radioButtonsGender[index].isChecked = false;
-            };
-        }
-    });
-}
-
-$(function () {
-    $('#confirm-button').click(function () {
-        location.reload();
-    });
-});
-
-for(let checkbox of checkboxes) {
-    $(checkbox.id).prop('checked', checkbox.isChecked);
 }
 
 function getCookie(name) {
@@ -70,55 +14,84 @@ function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-if (getCookie("settings") == undefined) {
-    for (let checkbox of checkboxes) {
-        checkbox.isChecked = false;
-    }
+let cookie = getCookie("settings");
 
-    for (let radiobutton of radioButtonsGender) {
-        radiobutton.isChecked = false;
-    }
-} else {
-    let cookie = getCookie("settings");
+let checkboxes = new Array();
+let radioButtonsGender = new Array();
 
-    console.log(cookie);
-    for (let index in checkboxes) {
-        if (cookie[index] == '0') {
-            checkboxes[index].isChecked = false;
-        }
-        else {
-            checkboxes[index].isChecked = true;
-        }
+if (cookie != undefined) {
 
-        $(checkboxes[index].id).prop('checked', checkboxes[index].isChecked);
-    }
+    checkboxes.push(new checkableControl("#checkboxPhone", cookie.includes("Phone")));
+    checkboxes.push(new checkableControl("#checkboxGender", cookie.includes("Gender")));
+    checkboxes.push(new checkableControl("#checkboxCity", cookie.includes("City")));
+    checkboxes.push(new checkableControl("#checkboxStreet", cookie.includes("Street")));
+    checkboxes.push(new checkableControl("#checkboxEmail", cookie.includes("Email")));
 
-    for (let index in radioButtonsGender) {
-        if (cookie[index + 5] == '0') {
-            radioButtonsGender[index].isChecked = false;
-        }
-        else {
-            radioButtonsGender[index].isChecked = true;
-        }
 
-        $(radioButtonsGender[index].id).prop('checked', radioButtonsGender[index].isChecked);
-    }
+    radioButtonsGender.push(new checkableControl("#radio-gender-any", !cookie.includes("male") && !cookie.includes("female")));
+    radioButtonsGender.push(new checkableControl("#radio-gender-male", cookie.includes("male")));
+    radioButtonsGender.push(new checkableControl("#radio-gender-female", cookie.includes("female")));
 }
+else {
+    checkboxes.push(new Checkbox("#checkboxPhone", false));
+    checkboxes.push(new Checkbox("#checkboxGender", false));
+    checkboxes.push(new Checkbox("#checkboxCity", false));
+    checkboxes.push(new Checkbox("#checkboxStreet", false));
+    checkboxes.push(new Checkbox("#checkboxEmail", false));
+
+
+    radioButtonsGender.push(new Checkbox("#radio-gender-any", true));
+    radioButtonsGender.push(new Checkbox("#radio-gender-male", false));
+    radioButtonsGender.push(new Checkbox("#radio-gender-female", false));
+}
+
+for (let checkbox of checkboxes) {
+    $(checkbox.id).prop('checked', checkbox.isChecked);
+
+    $(function () {
+        $(checkbox.id).click(function () {
+            checkbox.isChecked = ($(this).is(":checked") ? true : false);
+            console.log(checkbox.isChecked);
+            if (checkbox.id == "#checkboxGender") {
+                if (checkbox.isChecked) {
+                    $("#gender-radio-container").removeClass("d-none");
+                } else {
+                    $("#gender-radio-container").addClass("d-none");
+                }
+            }
+        });
+    });
+}
+
+for (let raidobutton of radioButtonsGender) {
+    $(raidobutton.id).prop('checked', raidobutton.isChecked);
+}
+
+$(function () {
+    $('#confirm-button').click(function () {
+        location.reload();
+    });
+});
 
 window.onbeforeunload = function (event) {
     let cookieStr = 'settings=';
+    let isSomethingChanged = false;
     for (let checkbox of checkboxes) {
         if (checkbox.isChecked) {     
             cookieStr += checkbox.isChecked ? checkbox.id.replace('#checkbox', '') : '';
             cookieStr += '_';
+            isSomethingChanged = true;
         }
     }
 
-    cookieStr = cookieStr.substring(0, cookieStr.length - 1);
+    if (isSomethingChanged) {
+        cookieStr = cookieStr.substring(0, cookieStr.length - 1);
+    }
 
     const index = $('input[name=genderradio]:checked', "#gender-radio-container").val();
+
     if (index != 0) {
-        cookieStr += '&gender=' + radioButtonsGender[1].id.replace('#radio-gender-', '');
+        cookieStr += '&gender=' + radioButtonsGender[index].id.replace('#radio-gender-', '');
     }
     
     this.document.cookie = cookieStr + ' ;';

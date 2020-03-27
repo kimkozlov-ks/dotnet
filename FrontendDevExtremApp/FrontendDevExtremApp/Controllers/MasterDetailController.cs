@@ -19,9 +19,9 @@ namespace FrontendDevExtremApp.Controllers
         }
 
         [HttpGet]
-        public object GetDetails(string phone, DataSourceLoadOptions loadOptions)
+        public object GetDetails(string name, DataSourceLoadOptions loadOptions)
         {
-            List<User> masterDetails = _dataLoader.GetData().Where(e => e.Phone == phone).ToList();
+            List<User> masterDetails = _dataLoader.GetData().Where(e => e.Name == name).ToList();
             return DataSourceLoader.Load(masterDetails, loadOptions);
         }
     }
