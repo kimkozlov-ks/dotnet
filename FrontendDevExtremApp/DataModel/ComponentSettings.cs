@@ -8,14 +8,22 @@ namespace DataModel
 {
     public class ComponentSettings
     {
-        public string Id;
+        public bool IsPhone;
+        public bool IsGender;
+        public bool IsCity;
+        public bool IsStreet;
+        public bool IsEmail;
 
-        public bool IsChecked;
-
-        public ComponentSettings(string id, bool isChecked = false)
+        public ComponentSettings(string componentSettings)
         {
-            Id = id;
-            IsChecked = isChecked;
+            if(componentSettings != null)
+            {
+                IsPhone = componentSettings.Contains("Phone");
+                IsGender = componentSettings.Contains("Gender");
+                IsCity = componentSettings.Contains("City");
+                IsStreet = componentSettings.Contains("Street");
+                IsEmail = componentSettings.Contains("Email");
+            }
         }
     }
 }

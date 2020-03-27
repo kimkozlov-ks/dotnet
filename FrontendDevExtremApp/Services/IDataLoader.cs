@@ -7,7 +7,7 @@ namespace Services
 {
     public interface IDataLoader
     {
-        void AddSettings(List<ComponentSettings> componentSettings);
+        void AddSettings(string componentSettings);
         List<User> GetData();
 
         List<User> LoadData();

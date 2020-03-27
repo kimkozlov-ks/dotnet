@@ -11,23 +11,19 @@ namespace FrontendDevExtremApp.Controllers
     public class HomeController : Controller
     {
         private readonly IDataLoader _dataloader;
-        private readonly IParsable<ComponentSettings> _cookiesParser;
 
-        public HomeController(IDataLoader dataLoader, IParsable<ComponentSettings> parser)
+        public HomeController(IDataLoader dataLoader)
         {
             _dataloader = dataLoader;
-            _cookiesParser = parser;
         }
 
         public IActionResult Index()
         {
             var cookie = Request.Cookies["settings"];
 
-            var componentSettings = _cookiesParser.parse(cookie).ToList();
+            _dataloader.AddSettings(cookie);
 
-            _dataloader.AddSettings(componentSettings);
-
-            return View(componentSettings);
+            return View(new ComponentSettings(cookie));
         }
 
     }

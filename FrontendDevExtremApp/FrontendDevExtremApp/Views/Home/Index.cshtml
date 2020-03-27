@@ -1,5 +1,5 @@
 @using DataModel;
-@model List<ComponentSettings>
+@model ComponentSettings
 
 <h2>Settings</h2>
 <div id="settings-container" class="container p-3 my-3 border">
@@ -13,17 +13,17 @@
         <div id="gender-radio-container" class="d-none">
             <div class="form-check">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="genderradio">Male
+                    <input type="radio" class="form-check-input" id="radio-gender-male" name="genderradio" value="1">Male
                 </label>
             </div>
             <div class="form-check">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="genderradio">Female
+                    <input type="radio" class="form-check-input" id="radio-gender-female" name="genderradio" value="2">Female
                 </label>
             </div>
             <div class="form-check">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="genderradio" checked>Any
+                    <input type="radio" class="form-check-input" id="radio-gender-any" name="genderradio" checked value="0">Any
                 </label>
             </div>
         </div>
@@ -59,10 +59,14 @@
                                 <img src="<%- value %>" alt="" />
                             </div>
                     </text>);
-         columns.AddFor(m => m.Name);
-         columns.AddFor(m => m.Gender).Visible(Model[1].IsChecked);
-         columns.AddFor(m => m.Phone).Visible(Model[0].IsChecked);
-     })
+             columns.AddFor(m => m.Name);
+
+             if (Model.IsGender)
+                 columns.AddFor(m => m.Gender);
+
+             if (Model.IsPhone)
+                 columns.AddFor(m => m.Phone);
+         })
 .Paging(p => p.PageSize(25))
 .FilterRow(f => f.Visible(true))
 .HeaderFilter(f => f.Visible(true))
@@ -77,45 +81,38 @@
 .Summary(s => s
 .TotalItems(totalItems =>
 {
- totalItems.AddFor(m => m.Phone).SummaryType(SummaryType.Count);
+totalItems.AddFor(m => m.Phone).SummaryType(SummaryType.Count);
 })
 .GroupItems(groupItems =>
 {
- groupItems.Add().SummaryType(SummaryType.Count);
+groupItems.Add().SummaryType(SummaryType.Count);
 }))
 .MasterDetail(md =>
 {
 
- if (Model[2].IsChecked || Model[3].IsChecked || Model[4].IsChecked)
- {
-     md.Enabled(true);
-     md.Template(@<text>
-                                        @(Html.DevExtreme().DataGrid<User>()
-                                          .ColumnAutoWidth(true)
-                                          .ShowBorders(true)
-                                          .Columns(columns =>
-                                          {
-                                              columns.AddFor(m => m.City).Visible(Model[2].IsChecked);
+if (Model.IsCity || Model.IsStreet || Model.IsEmail)
+{
+ md.Enabled(true);
+ md.Template(@<text>
+                                @(Html.DevExtreme().DataGrid<User>()
+                                 .ColumnAutoWidth(true)
+                                 .ShowBorders(true)
+                                 .Columns(columns =>
+                                 {
+                                   if (Model.IsCity)
+                                       columns.AddFor(m => m.City);
 
-                                              columns.AddFor(m => m.Street).Visible(Model[3].IsChecked);
-
-                                              columns.AddFor(m => m.Email).Visible(Model[4].IsChecked);
-
-                                              //columns.Add()
-                                              //    .Caption("Completed")
-                                              //    .DataType(GridColumnDataType.Boolean)
-                                              //    .CalculateCellValue(@"function(rowData) { return rowData.Status == ""Completed""; }");
-                                          })
-                                          .DataSource(d => d.Mvc()
-                                              .Controller("MasterDetail")
-                                              .LoadAction("GetDetails")
-                                              .LoadParams(new { phone = new JS("data.Phone") })
-                                          )
-                                        ) </text>);
-
-           }
-       }
-   )
-)
+                                   if (Model.IsStreet)
+                                       columns.AddFor(m => m.Street);
+                                   if (Model.IsEmail)
+                                       columns.AddFor(m => m.Email);
+                                        })
+                                 .DataSource(d => d.Mvc()
+                                     .Controller("MasterDetail")
+                                     .LoadAction("GetDetails")
+                                     .LoadParams(new { phone = new JS("data.Phone") })
+                                 )
+                                ) </text>);
+}}))
 
 <script src="~/js/SettingsComponent.js"></script>

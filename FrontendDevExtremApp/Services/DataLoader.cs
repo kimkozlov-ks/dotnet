@@ -10,8 +10,8 @@ namespace Services
     public class DataLoader : IDataLoader
     {
         private List<User> _users  = new List<User>();
-        private List<ComponentSettings> _componentSettings = new List<ComponentSettings>();
-        private string _url => string.Empty;
+        private string _componentSettings;
+        private string _url = string.Empty;
 
         public List<User> GetData()
         {
@@ -26,6 +26,8 @@ namespace Services
             {
                 return GetData();
             }
+
+            _url = url.ToString();
 
             using (var client = new HttpClient())
             {
@@ -87,6 +89,15 @@ namespace Services
                 users.Add(user);
             }
 
+            if(_componentSettings.Contains("female"))
+            {
+                users.RemoveAll(u => u.Gender == "male");
+            }
+            else if (_componentSettings.Contains("male"))
+            {
+                users.RemoveAll(u => u.Gender == "female");
+            }
+
             return users;
         }
 
@@ -106,31 +117,41 @@ namespace Services
         {
             string url = "https://randomuser.me/api/?inc=name,picture";
 
-            bool isLocationAdded = false;
-            foreach(var setting in _componentSettings)
+            if(_componentSettings != null)
             {
-                if (setting.IsChecked)
-                {
-                    if(setting.Id == "Street" || setting.Id == "City")
-                    {
-                        if (isLocationAdded == false)
-                        {
-                            isLocationAdded = true;
-                            url += ",location";
-                            continue;
-                        }
-                    }
+                var editedComopentSettingsString = _componentSettings.ToLower().Replace('_', ',');
 
-                    url += "," + setting.Id.ToLower();
+                if(editedComopentSettingsString.Contains("city,street"))
+                {
+                    editedComopentSettingsString = editedComopentSettingsString.Replace("city,street", "location");
                 }
+                else if (editedComopentSettingsString.Contains("city"))
+                {
+                    editedComopentSettingsString = editedComopentSettingsString.Replace("city", "location");
+                }
+                else if (editedComopentSettingsString.Contains("street"))
+                {
+                    editedComopentSettingsString = editedComopentSettingsString.Replace("street", "location");
+                }
+
+                url += ',' + editedComopentSettingsString;
             }
 
             url += "&seed=foobar&results=100&noinfo";
 
+            if(url.Contains("&gender=male"))
+            {
+                url.Replace("&gender=male", "");
+            }
+            else if (url.Contains("&gender=female"))
+            {
+                url.Replace("&gender=female", "");
+            }
+
             return new Uri(url);
         }
 
-        public void AddSettings(List<ComponentSettings> componentSettings)
+        public void AddSettings(string componentSettings)
         {
             _componentSettings = componentSettings;
         }
