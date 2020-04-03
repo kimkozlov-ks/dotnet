@@ -17,7 +17,9 @@ namespace FrontendDevExtremApp.Controllers {
         [HttpGet]
         public object Get(DataSourceLoadOptions loadOptions) 
         {
-            return DataSourceLoader.Load(_dataLoader.LoadData(), loadOptions);
+            var data = _dataLoader.GetDataFromApiAsync().Result;
+
+            return DataSourceLoader.Load(data, loadOptions);
         }
     }
 }

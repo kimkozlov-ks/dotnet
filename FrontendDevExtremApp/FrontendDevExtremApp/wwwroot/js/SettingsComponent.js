@@ -33,16 +33,16 @@ if (cookie != undefined) {
     radioButtonsGender.push(new checkableControl("#radio-gender-female", cookie.includes("female")));
 }
 else {
-    checkboxes.push(new Checkbox("#checkboxPhone", false));
-    checkboxes.push(new Checkbox("#checkboxGender", false));
-    checkboxes.push(new Checkbox("#checkboxCity", false));
-    checkboxes.push(new Checkbox("#checkboxStreet", false));
-    checkboxes.push(new Checkbox("#checkboxEmail", false));
+    checkboxes.push(new checkableControl("#checkboxPhone", false));
+    checkboxes.push(new checkableControl("#checkboxGender", false));
+    checkboxes.push(new checkableControl("#checkboxCity", false));
+    checkboxes.push(new checkableControl("#checkboxStreet", false));
+    checkboxes.push(new checkableControl("#checkboxEmail", false));
 
 
-    radioButtonsGender.push(new Checkbox("#radio-gender-any", true));
-    radioButtonsGender.push(new Checkbox("#radio-gender-male", false));
-    radioButtonsGender.push(new Checkbox("#radio-gender-female", false));
+    radioButtonsGender.push(new checkableControl("#radio-gender-any", true));
+    radioButtonsGender.push(new checkableControl("#radio-gender-male", false));
+    radioButtonsGender.push(new checkableControl("#radio-gender-female", false));
 }
 
 for (let checkbox of checkboxes) {

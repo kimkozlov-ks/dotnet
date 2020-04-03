@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using DataModel;
 
 namespace Services
@@ -10,6 +11,6 @@ namespace Services
         void AddSettings(string componentSettings);
         List<User> GetData();
 
-        List<User> LoadData();
+        Task<List<User>> GetDataFromApiAsync();
     }
 }

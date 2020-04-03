@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using DataModel;
+using System.Threading.Tasks;
 
 namespace Services
 {
     public class DataLoader : IDataLoader
     {
         private List<User> _users  = new List<User>();
-        private string _componentSettings;
+        private string _componentSettings = string.Empty;
         private string _url = string.Empty;
 
         public List<User> GetData()
@@ -18,36 +19,38 @@ namespace Services
             return _users;
         }
 
-        public List<User> LoadData()
+        public async Task<List<User>> GetDataFromApiAsync()
         {
             var url = makeUrl();
 
-            if(url.Equals(_url))
+            if (url.Equals(_url))
             {
                 return GetData();
             }
 
             _url = url.ToString();
 
+            await downloadData();
+
+            return _users;
+        }
+
+        private async Task downloadData()
+        {
             using (var client = new HttpClient())
             {
-                var responseTask = client.GetAsync(url);
-                responseTask.Wait();
+                var response = await client.GetAsync(_url);
 
-                var result = responseTask.Result;
-
-                if (result.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    IList<JToken> results = ReadResult(result);
+                    IList<JToken> results = ReadResult(response);
                     _users = ParseResults(results);
                 }
                 else
                 {
-                    throw new Exception(result.StatusCode.ToString());
+                    throw new Exception(response.StatusCode.ToString());
                 }
             }
-
-            return _users;
         }
 
         private List<User> ParseResults(IList<JToken> results)
@@ -56,40 +59,54 @@ namespace Services
 
             foreach (var res in results)
             {
-                var user = new User();
-
-                if(res["phone"] != null)
-                {
-                    user.Phone = Convert.ToString(res["phone"]);
-                }
-
-                if (res["gender"] != null)
-                {
-                    user.Gender = Convert.ToString(res["gender"]);
-                }
-
-                user.Name = res["name"]["first"] + " " + res["name"]["last"];
-
-                if (res["location"] != null)
-                {
-                    user.City = res["location"]["city"].ToString();
-                    user.Street = res["location"]["street"]["number"] + " " + res["location"]["street"]["name"];
-                }
-
-                if (res["email"] != null)
-                {
-                    user.Email = res["email"].ToString();
-                }
-
-                if (res["picture"] != null)
-                {
-                    user.Picture = res["picture"]["thumbnail"].ToString();
-                }
+                var user = createNewUser(res);
 
                 users.Add(user);
             }
 
-            if(_componentSettings.Contains("female"))
+            filterListOfUsersByGender(users);
+
+            return users;
+        }
+
+        private User createNewUser(JToken res)
+        {
+            var user = new User();
+
+            if (res["phone"] != null)
+            {
+                user.Phone = Convert.ToString(res["phone"]);
+            }
+
+            if (res["gender"] != null)
+            {
+                user.Gender = Convert.ToString(res["gender"]);
+            }
+
+            user.Name = res["name"]["first"] + " " + res["name"]["last"];
+
+            if (res["location"] != null)
+            {
+                user.City = res["location"]["city"].ToString();
+                user.Street = res["location"]["street"]["number"] + " " + res["location"]["street"]["name"];
+            }
+
+            if (res["email"] != null)
+            {
+                user.Email = res["email"].ToString();
+            }
+
+            if (res["picture"] != null)
+            {
+                user.Picture = res["picture"]["thumbnail"].ToString();
+            }
+
+            return user;
+        }
+
+        private void filterListOfUsersByGender(List<User> users)
+        {
+            if (_componentSettings.Contains("female"))
             {
                 users.RemoveAll(u => u.Gender == "male");
             }
@@ -97,8 +114,6 @@ namespace Services
             {
                 users.RemoveAll(u => u.Gender == "female");
             }
-
-            return users;
         }
 
         private IList<JToken> ReadResult(HttpResponseMessage result)
@@ -153,7 +168,10 @@ namespace Services
 
         public void AddSettings(string componentSettings)
         {
-            _componentSettings = componentSettings;
+            if(componentSettings != null)
+            { 
+                _componentSettings = componentSettings;
+            }
         }
     }
 }
