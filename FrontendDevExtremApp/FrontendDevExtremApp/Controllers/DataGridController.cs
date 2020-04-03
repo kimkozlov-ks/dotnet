@@ -19,7 +19,7 @@ namespace FrontendDevExtremApp.Controllers {
         {
             var data = _dataLoader.GetDataFromApiAsync().Result;
 
-            return DataSourceLoader.Load(data, loadOptions);
+            return Ok(DataSourceLoader.Load(data, loadOptions));
         }
     }
 }

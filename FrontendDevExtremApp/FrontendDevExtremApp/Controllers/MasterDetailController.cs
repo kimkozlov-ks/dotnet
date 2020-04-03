@@ -22,7 +22,8 @@ namespace FrontendDevExtremApp.Controllers
         public object GetDetails(string name, DataSourceLoadOptions loadOptions)
         {
             List<User> masterDetails = _dataLoader.GetData().Where(e => e.Name == name).ToList();
-            return DataSourceLoader.Load(masterDetails, loadOptions);
+            
+            return Ok(DataSourceLoader.Load(masterDetails, loadOptions));
         }
     }
 }
