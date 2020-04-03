@@ -110,7 +110,7 @@ if (Model.IsCity || Model.IsStreet || Model.IsEmail)
                                  .DataSource(d => d.Mvc()
                                      .Controller("MasterDetail")
                                      .LoadAction("GetDetails")
-                                     .LoadParams(new { phone = new JS("data.Phone") })
+                                     .LoadParams(new { name = new JS("data.Name") })
                                  )
                                 ) </text>);
 }}))
