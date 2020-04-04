@@ -19,7 +19,11 @@ namespace FrontendDevExtremApp.Controllers
 
         public IActionResult Index()
         {
-            var cookie = Request.Cookies["settings"];
+            string cookie = string.Empty;
+            if (Request != null)
+            {
+                cookie = Request.Cookies["settings"];
+            }
 
             _dataloader.AddSettings(cookie);
 
