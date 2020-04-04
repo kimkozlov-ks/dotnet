@@ -94,7 +94,7 @@ window.onbeforeunload = function (event) {
         cookieStr += '&gender=' + radioButtonsGender[index].id.replace('#radio-gender-', '');
     }
     
-    this.document.cookie = cookieStr + ' ;';
+    this.document.cookie = cookieStr + ' ; expires=Tue, 1 Jan 2038 00:00:00 GMT';
 
     return null;
 };
