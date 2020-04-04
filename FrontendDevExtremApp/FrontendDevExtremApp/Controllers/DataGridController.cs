@@ -2,6 +2,7 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using System.Threading.Tasks;
 
 namespace FrontendDevExtremApp.Controllers {
 
@@ -15,9 +16,9 @@ namespace FrontendDevExtremApp.Controllers {
         }
 
         [HttpGet]
-        public object Get(DataSourceLoadOptions loadOptions) 
+        public async Task<object> Get(DataSourceLoadOptions loadOptions) 
         {
-            var data = _dataLoader.GetDataFromApiAsync().Result;
+            var data = await _dataLoader.GetDataFromApiAsync();
 
             return Ok(DataSourceLoader.Load(data, loadOptions));
         }
