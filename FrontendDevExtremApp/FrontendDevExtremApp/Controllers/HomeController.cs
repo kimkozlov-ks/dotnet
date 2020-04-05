@@ -2,19 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Database;
 using DataModel;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using Services.Repository;
 
 namespace FrontendDevExtremApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IDataLoader _dataloader;
+        private readonly IRepository _repository;
 
-        public HomeController(IDataLoader dataLoader)
+        public HomeController(IDataLoader dataLoader, IRepository repository)
         {
             _dataloader = dataLoader;
+            _repository = repository;
         }
 
         public IActionResult Index()
@@ -26,6 +30,8 @@ namespace FrontendDevExtremApp.Controllers
             }
 
             _dataloader.AddSettings(cookie);
+
+            var res = _repository.addRequestCookie(cookie).Result;
 
             return View(new ComponentSettings(cookie));
         }

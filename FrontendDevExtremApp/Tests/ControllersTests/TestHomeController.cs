@@ -18,7 +18,7 @@ namespace Tests.ControllersTests
             var dataLoader = new Mock<IDataLoader>();
             dataLoader.Setup(d => d.AddSettings(It.IsAny<string>()));
 
-            var homeController = new HomeController(dataLoader.Object);
+            var homeController = new HomeController(dataLoader.Object, null);
 
             var result = homeController.Index() as ViewResult;
 

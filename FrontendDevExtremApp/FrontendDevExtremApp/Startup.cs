@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using Services;
 using DataModel;
+using Database;
+using Microsoft.EntityFrameworkCore;
+using Services.Repository;
 
 namespace FrontendDevExtremApp
 {
@@ -30,6 +33,9 @@ namespace FrontendDevExtremApp
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             services.AddSingleton<IDataLoader, DataLoader>();
+
+            services.AddDbContext<RequestDbContext>(x => x.UseSqlite("Data Source=test.db"));
+            services.AddTransient<IRepository, Repository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
