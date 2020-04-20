@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database
 {
@@ -8,7 +9,7 @@ namespace Database
 
         public RequestDbContext(DbContextOptions<RequestDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
     }
 }

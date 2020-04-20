@@ -1,12 +1,12 @@
-﻿using System;
+﻿using DataModel;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Services.Repository
 {
     public interface IRepository
     {
-        Task<bool> addRequestCookie(string cookie);
+        Task<bool> AddRequestCookie(string cookie);
+        Task<IEnumerable<Request>> GetRequestCookies();
     }
 }

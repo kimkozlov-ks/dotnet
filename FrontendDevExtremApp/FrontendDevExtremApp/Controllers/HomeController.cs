@@ -31,7 +31,9 @@ namespace FrontendDevExtremApp.Controllers
 
             _dataloader.AddSettings(cookie);
 
-            var res = _repository.addRequestCookie(cookie).Result;
+            var res = _repository.AddRequestCookie(cookie).Result;
+
+            var reqs = _repository.GetRequestCookies().Result.ToList();
 
             return View(new ComponentSettings(cookie));
         }
