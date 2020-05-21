@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DataModel;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using Services.Models;
 
 namespace FrontendDevExtremApp.Controllers
 {

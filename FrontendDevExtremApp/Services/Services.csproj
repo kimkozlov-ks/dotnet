@@ -16,8 +16,4 @@
     <PackageReference Include="DevExpress.Xpo" Version="19.2.6" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DataModel\DataModel.csproj" />
-  </ItemGroup>
-
 </Project>

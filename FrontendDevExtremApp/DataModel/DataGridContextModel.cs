@@ -6,7 +6,7 @@ namespace DataModel
 {
     public class DataGridContextModel
     {
-        public List<User> Users { get; set; }
-        public List<ComponentSettings> ComponentSettings { get; set; }
+        //public List<User> Users { get; set; }
+        //public List<ComponentSettings> ComponentSettings { get; set; }
     }
 }

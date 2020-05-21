@@ -1,11 +1,8 @@
-﻿using DataModel;
-using DevExtreme.AspNet.Data.ResponseModel;
-using DevExtreme.AspNet.Mvc;
-using FrontendDevExtremApp.Controllers;
+﻿using FrontendDevExtremApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Services;
-using System.Collections.Generic;
+using Services.Models;
 using Xunit;
 
 namespace Tests.ControllersTests

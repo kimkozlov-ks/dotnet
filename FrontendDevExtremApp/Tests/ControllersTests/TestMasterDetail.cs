@@ -1,10 +1,10 @@
-﻿using DataModel;
-using DevExtreme.AspNet.Data.ResponseModel;
+﻿using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using FrontendDevExtremApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Services;
+using Services.Models;
 using System.Collections.Generic;
 using Xunit;
 

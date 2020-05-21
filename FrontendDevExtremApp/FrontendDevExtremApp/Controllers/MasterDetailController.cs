@@ -2,7 +2,7 @@
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Services;
-using DataModel;
+using Services.Models;
 using System.Collections.Generic;
 using System.Linq;
 
