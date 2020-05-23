@@ -7,19 +7,18 @@ class checkableControl {
     }
 }
 
-function getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
-let cookie = getCookie("settings");
+let cookie = document.cookie;
 
 let checkboxes = new Array();
 let radioButtonsGender = new Array();
 
-if (cookie != undefined) {
+if (cookie != undefined && cookie != null) {
+
+    cookie = cookie.substring(cookie.indexOf("settings"));
+
+    if (cookie.includes(';')) {
+        cookie = cookie.substring(0, cookie.indexOf(';'));
+    }
 
     checkboxes.push(new checkableControl("#checkboxPhone", cookie.includes("Phone")));
     checkboxes.push(new checkableControl("#checkboxGender", cookie.includes("Gender")));
@@ -27,10 +26,13 @@ if (cookie != undefined) {
     checkboxes.push(new checkableControl("#checkboxStreet", cookie.includes("Street")));
     checkboxes.push(new checkableControl("#checkboxEmail", cookie.includes("Email")));
 
-
     radioButtonsGender.push(new checkableControl("#radio-gender-any", !cookie.includes("male") && !cookie.includes("female")));
     radioButtonsGender.push(new checkableControl("#radio-gender-male", cookie.includes("male")));
     radioButtonsGender.push(new checkableControl("#radio-gender-female", cookie.includes("female")));
+
+    if ($('#checkboxGender').prop('checked') === true) {
+        $("#gender-radio-container").removeClass("d-none");
+    }
 }
 else {
     checkboxes.push(new checkableControl("#checkboxPhone", false));
@@ -38,7 +40,6 @@ else {
     checkboxes.push(new checkableControl("#checkboxCity", false));
     checkboxes.push(new checkableControl("#checkboxStreet", false));
     checkboxes.push(new checkableControl("#checkboxEmail", false));
-
 
     radioButtonsGender.push(new checkableControl("#radio-gender-any", true));
     radioButtonsGender.push(new checkableControl("#radio-gender-male", false));
@@ -51,7 +52,6 @@ for (let checkbox of checkboxes) {
     $(function () {
         $(checkbox.id).click(function () {
             checkbox.isChecked = ($(this).is(":checked") ? true : false);
-            console.log(checkbox.isChecked);
             if (checkbox.id == "#checkboxGender") {
                 if (checkbox.isChecked) {
                     $("#gender-radio-container").removeClass("d-none");
@@ -84,7 +84,7 @@ window.onbeforeunload = function (event) {
         }
     }
 
-    if (isSomethingChanged) {
+    if(isSomethingChanged) {
         cookieStr = cookieStr.substring(0, cookieStr.length - 1);
     }
 
@@ -94,7 +94,7 @@ window.onbeforeunload = function (event) {
         cookieStr += '&gender=' + radioButtonsGender[index].id.replace('#radio-gender-', '');
     }
     
-    this.document.cookie = cookieStr + ' ; expires=Tue, 1 Jan 2038 00:00:00 GMT';
+    this.document.cookie = cookieStr + ' ; expires=Tue, 1 Jan 2038 00:00:00 GMT;';
 
     return null;
 };
