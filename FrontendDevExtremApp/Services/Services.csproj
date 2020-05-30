@@ -7,7 +7,6 @@
   <ItemGroup>
     <Compile Remove="Class1.cs" />
     <Compile Remove="CookiesParser.cs" />
-    <Compile Remove="Interface1.cs" />
     <Compile Remove="IParsable.cs" />
     <Compile Remove="IParse.cs" />
   </ItemGroup>
