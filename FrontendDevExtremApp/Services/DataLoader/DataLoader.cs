@@ -16,6 +16,12 @@ namespace Services
         private readonly IUrlBuilder _randomUserUrlBuilder = new RandomUserUrlBuilder();
         private readonly IParser _jsonParser = new JsonParser();
 
+        public DataLoader(IUrlBuilder urlBuilder, IParser parser)
+        {
+            _randomUserUrlBuilder = urlBuilder;
+            _jsonParser = parser;
+        }
+
         public void AddSettings(string componentSettings)
         {
             if (componentSettings != null)
