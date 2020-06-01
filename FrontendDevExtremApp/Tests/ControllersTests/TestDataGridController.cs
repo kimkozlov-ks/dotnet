@@ -29,8 +29,5 @@ namespace Tests.ControllersTests
             Assert.NotNull(result);
             Assert.IsType<LoadResult>(result.Value);
         }
-
-        
-
     }
 }

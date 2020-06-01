@@ -1,4 +1,5 @@
-﻿using Services;
+﻿using Moq;
+using Services;
 using Services.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,78 +8,112 @@ using Xunit;
 
 namespace Tests.DataLoaderTests
 {
+    // Integral Tests (They needs internet connection)
+
     public class TestDataLoader
     {
-        [Fact]
-        public async Task GetDatFromApiReturnsListOfUsers()
+        private const int _expectedCount = 100;
+
+        private IUrlBuilder _urlBuilder = new RandomUserUrlBuilder();
+        private IParser _parser = new JsonParser();
+        private IDataLoader _dataLoader;
+
+
+        public TestDataLoader()
         {
-            var dataLoader = new DataLoader();
-            dataLoader.AddSettings("");
+           _dataLoader = new DataLoader(_urlBuilder, _parser);
+        }
+
+        [Fact]
+        public async Task GetDatFromApiReturnsListOfUsersIfComponentSettingsisEmpty()
+        {
+            _dataLoader.AddSettings("");
             
-            var result = await dataLoader.GetDataFromApiAsync();
+            var result = await _dataLoader.GetDataFromApiAsync();
 
             Assert.NotNull(result);
             Assert.IsType<List<User>>(result);
-            var expectedCount = 100;
-            Assert.Equal(expectedCount, result.Count);
+
+            Assert.Equal(_expectedCount, result.Count);
             Assert.Null(result.First().Phone);
             Assert.Null(result.First().City);
             Assert.Null(result.First().Street);
             Assert.Null(result.First().Email);
             Assert.Null(result.First().Gender);
+        }
 
-            dataLoader.AddSettings("gender");
+        [Fact]
+        public async Task GetDatFromApiReturnsListOfUsersIfComponentSettingsContainsGender()
+        {
+            _dataLoader.AddSettings("gender");
 
-            result = await dataLoader.GetDataFromApiAsync();
+            var result = await _dataLoader.GetDataFromApiAsync();
 
-            Assert.NotNull(result);
-            Assert.IsType<List<User>>(result);
-            Assert.Equal(expectedCount, result.Count);
+            Assert.NotNull(result.First().Gender);
             Assert.Null(result.First().Phone);
             Assert.Null(result.First().City);
             Assert.Null(result.First().Street);
             Assert.Null(result.First().Email);
-            Assert.NotNull(result.First().Gender);
+        }
 
-            dataLoader.AddSettings("gender, location");
+        [Fact]
+        public async Task GetDatFromApiReturnsListOfUsersIfComponentSettingsContainsLocation()
+        {
+            _dataLoader.AddSettings("location");
 
-            result = await dataLoader.GetDataFromApiAsync();
+            var result = await _dataLoader.GetDataFromApiAsync();
 
-            Assert.NotNull(result);
-            Assert.IsType<List<User>>(result);
-            Assert.Equal(expectedCount, result.Count);
+            Assert.NotNull(result.First().City);
+            Assert.NotNull(result.First().Street);
             Assert.Null(result.First().Phone);
-            Assert.NotNull(result.First().City);
-            Assert.NotNull(result.First().Street);
+            Assert.Null(result.First().Gender);
             Assert.Null(result.First().Email);
-            Assert.NotNull(result.First().Gender);
+        }
 
-            dataLoader.AddSettings("gender, location, email, phone");
+        [Fact]
+        public async Task GetDatFromApiReturnsListOfUsersIfComponentSettingsContainsEmail()
+        {
+            _dataLoader.AddSettings("email");
 
-            result = await dataLoader.GetDataFromApiAsync();
+            var result = await _dataLoader.GetDataFromApiAsync();
 
-            Assert.NotNull(result);
-            Assert.IsType<List<User>>(result);
-            Assert.Equal(expectedCount, result.Count);
-            Assert.NotNull(result.First().Phone);
-            Assert.NotNull(result.First().City);
-            Assert.NotNull(result.First().Street);
             Assert.NotNull(result.First().Email);
-            Assert.NotNull(result.First().Gender);
+            Assert.Null(result.First().Phone);
+            Assert.Null(result.First().City);
+            Assert.Null(result.First().Street);
+            Assert.Null(result.First().Gender);
+        }
 
-            dataLoader.AddSettings("gender,location,email,phone&gender=male");
+        [Fact]
+        public async Task GetDatFromApiReturnsListOfUsersIfComponentSettingsContainsPhone()
+        {
+            _dataLoader.AddSettings("phone");
 
-            result = await dataLoader.GetDataFromApiAsync();
+            var result = await _dataLoader.GetDataFromApiAsync();
 
-            Assert.True(expectedCount > result.Count);
+            Assert.NotNull(result.First().Phone);
+            Assert.Null(result.First().Gender);
+            Assert.Null(result.First().City);
+            Assert.Null(result.First().Street);
+            Assert.Null(result.First().Email);
+        }
 
-            dataLoader.AddSettings("gender,location,email,phone&gender=female");
+        [Fact]
+        public async Task GetDatFromApiReturnsListOfUsersIfComponentSettingsContainsGenderType()
+        {
+            _dataLoader.AddSettings("gender&gender=male");
 
-            result = await dataLoader.GetDataFromApiAsync();
+            var result = await _dataLoader.GetDataFromApiAsync();
+
+            Assert.True(_expectedCount > result.Count);
+
+            _dataLoader.AddSettings("gender&gender=female");
+
+            result = await _dataLoader.GetDataFromApiAsync();
 
             Assert.NotNull(result);
             Assert.IsType<List<User>>(result);
-            Assert.True(expectedCount > result.Count);
+            Assert.True(_expectedCount > result.Count);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Tests.TestComponentSettings
     public class TestComponentSettings
     {
         [Fact]
-        public void TestComponentSettingsCtor()
+        public void TestComponentSettingsCtorIfStringIsNull()
         {
             string settings = null;
             var componentSettings = new ComponentSettings(settings);
@@ -16,17 +16,25 @@ namespace Tests.TestComponentSettings
             Assert.False(componentSettings.IsGender);
             Assert.False(componentSettings.IsPhone);
             Assert.False(componentSettings.IsStreet);
+        }
 
-            settings = string.Empty;
+        [Fact]
+        public void TestComponentSettingsCtorIfStringIsEmpty()
+        {
+            var settings = string.Empty;
             var componentSettings2 = new ComponentSettings(settings);
 
             Assert.False(componentSettings2.IsCity);
             Assert.False(componentSettings2.IsEmail);
             Assert.False(componentSettings2.IsGender);
             Assert.False(componentSettings2.IsPhone);
-            Assert.False(componentSettings2.IsStreet);
+            Assert.False(componentSettings2.IsStreet);      
+        }
 
-            settings = "City,Street,Email,Gender,Phone";
+        [Fact]
+        public void TestComponentSettingsCtorIfStringHasFullParameters()
+        {
+            var settings = "City,Street,Email,Gender,Phone";
             var componentSettings3 = new ComponentSettings(settings);
 
             Assert.True(componentSettings3.IsCity);
