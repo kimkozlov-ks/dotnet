@@ -25,6 +25,8 @@ namespace FrontendDevExtremApp
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             services.AddSingleton<IDataLoader, DataLoader>();
+            services.AddTransient<IParser, JsonParser>();
+            services.AddTransient<IUrlBuilder, RandomUserUrlBuilder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

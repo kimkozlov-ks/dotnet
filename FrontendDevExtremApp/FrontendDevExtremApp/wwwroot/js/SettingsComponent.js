@@ -12,7 +12,7 @@ let cookie = document.cookie;
 let checkboxes = new Array();
 let radioButtonsGender = new Array();
 
-if (cookie != undefined && cookie != null) {
+if (cookie != undefined && cookie != null && cookie != "settings=") {
 
     cookie = cookie.substring(cookie.indexOf("settings"));
 
@@ -56,6 +56,9 @@ for (let checkbox of checkboxes) {
                 if (checkbox.isChecked) {
                     $("#gender-radio-container").removeClass("d-none");
                 } else {
+                    $("#radio-gender-any").prop("checked", true);
+                    $("#radio-gender-male").prop("checked", false);
+                    $("#radio-gender-female").prop("checked", false);
                     $("#gender-radio-container").addClass("d-none");
                 }
             }
