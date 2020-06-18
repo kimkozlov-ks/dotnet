@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ComponentSettings.cs" />
+    <Compile Remove="DataGridContextModel.cs" />
+    <Compile Remove="User.cs" />
+  </ItemGroup>
+
+</Project>
